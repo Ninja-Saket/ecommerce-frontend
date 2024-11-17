@@ -1,9 +1,23 @@
 import React, {useState} from 'react'
+import {sendSignInLinkToEmail, GoogleAuthProvider} from 'firebase/auth'
+import {toast} from 'react-toastify'
+import {auth} from '../../firebase'
 
 const Register = () => {
     const [email, setEmail] = useState("")
-    const handleSubmit = () => {
-
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const config = {
+            url : import.meta.env.VITE_REGISTER_REDIRECT_URL,
+            handleCodeInApp : true
+        }
+        console.log(config)
+        await sendSignInLinkToEmail(auth, email, config);
+        toast.success(`Email is sent to ${email}. Click the link to complete your registration.`)
+        // Save user email in localStorage
+        window.localStorage.setItem('emailForRegistration', email)
+        // Clear the state
+        setEmail('')
     }
     const registerForm = () => (
         <form onSubmit={handleSubmit}>
