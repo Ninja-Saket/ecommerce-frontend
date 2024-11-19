@@ -8,7 +8,7 @@ import {
   UserAddOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 const { SubMenu, Item } = Menu;
 import {auth} from '../../firebase'
 
@@ -16,6 +16,7 @@ const Header = () => {
   const [current, setCurrent] = useState("home");
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const {user} = useSelector((state)=> ({...state}))
   const logout = () => {
     auth.signOut()
     dispatch({
@@ -24,14 +25,14 @@ const Header = () => {
     })
     navigate('/')
   }
-  const itemsLeft = [
+  const itemsLeftBeforeLogin = [
     {
       label: <Link to="/">Home</Link>,
       key: "home",
       icon: <AppstoreOutlined />,
     },
     {
-      label: "Username",
+      label: 'Username',
       key: "username",
       icon: <SettingOutlined />,
       children: [
@@ -53,7 +54,15 @@ const Header = () => {
     },
   ];
 
-  const itemsRight = [
+  const itemsLeftAfterLogin = [
+    {
+      label: <Link to="/">Home</Link>,
+      key: "home",
+      icon: <AppstoreOutlined />,
+    }
+  ];
+
+  const itemsRightBeforeLogin = [
     {
       label: <Link to="/login">Login</Link>,
       key: "login",
@@ -64,32 +73,75 @@ const Header = () => {
       key: "register",
       icon: <UserAddOutlined />,
     },
-  ];
+  ]
+  const itemsRightAfterLogin = [
+    {
+      label: 'User',
+      key: "username",
+      icon: <SettingOutlined />,
+      children: [
+        {
+          label: "Option 1",
+          key: "option1",
+        },
+        {
+          label: "Option 2",
+          key: "option2",
+        },
+        {
+          label: "Logout",
+          key: "logout",
+          icon: <LogoutOutlined />,
+          onClick: logout,
+        }
+      ]
+    }
+  ]
   const onClick = (e) => {
     console.log("click", e);
     setCurrent(e.key);
   };
   return (
     <div className="container-fluid mx-0 p-0">
-      <div className="row mx-0">
-        <div className="col-6">
+      <div className="row mx-0" style={{borderBottom : '1px solid rgba(5, 5, 5, 0.06)'}}>
+        {!user && (<div className="col-6">
           <Menu
             onClick={onClick}
             selectedKeys={[current]}
             mode="horizontal"
             key="navmenuleft"
-            items={itemsLeft}
+            items={itemsLeftBeforeLogin}
           />
-        </div>
-        <div className="col-6 d-flex justify-content-end">
+        </div>)}
+        {user && (<div className="col-6">
+          <Menu
+            onClick={onClick}
+            selectedKeys={[current]}
+            mode="horizontal"
+            key="navmenuleft"
+            items={itemsLeftAfterLogin}
+          />
+        </div>)}
+        {!user && (<div className="col-6 d-flex justify-content-end">
           <Menu
             onClick={onClick}
             selectedKeys={[current]}
             mode="horizontal"
             key="navmenuright"
-            items={itemsRight}
+            items={itemsRightBeforeLogin}
           />
-        </div>
+        </div>)}
+        {user && (<div className="col-6">
+          <Menu
+            onClick={onClick}
+            selectedKeys={[current]}
+            mode="horizontal"
+            key="navmenuright"
+            items={itemsRightAfterLogin}
+            style={{ display: 'flex', justifyContent: 'flex-end' }}
+          />
+        </div>)}
+
       </div>
     </div>
   );

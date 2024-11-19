@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom"
 import {ToastContainer} from 'react-toastify'
 import {useDispatch} from 'react-redux'
@@ -11,6 +11,7 @@ import Header from './components/nav/Header'
 import RegisterComplete from './pages/auth/RegisterComplete'
 
 const App = ()=> {
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch()
   // check firebase auth state
   useEffect(() => {
@@ -24,11 +25,17 @@ const App = ()=> {
             token : idTokenResult.token
           }
         })
+      }else{
+        dispatch({
+          type : 'LOGOUT',
+          payload : null
+        })
       }
+      setLoading(false)
     })
     return () => unsubscribe()
   }, [])
-  return (
+  return loading ? (<h4 className='text-danger'>Loading...</h4>) : (
     <Router>
       <Header />
       <ToastContainer/>
