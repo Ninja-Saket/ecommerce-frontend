@@ -2,11 +2,17 @@ import React, {useState, useEffect} from 'react'
 import {toast} from 'react-toastify'
 import {auth} from '../../firebase'
 import { signInWithEmailLink, updatePassword } from 'firebase/auth'
-import { } from 'firebase/auth'
+import { useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { createOrUpdateUser } from '../../apiCalls/auth'
 
-const RegisterComplete = ({history}) => {
+const RegisterComplete = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const {user} = useSelector((state) => ({...state}))
 
     useEffect(()=> {
         setEmail(window.localStorage.getItem("emailForRegistration"))
@@ -31,14 +37,26 @@ const RegisterComplete = ({history}) => {
                 const idTokenResult = await user.getIdTokenResult();
                 console.log( 'idTokenResult', idTokenResult)
                 console.log('updatedResult', updatedResult)
-                history.push('/')
+                const result1 = await createOrUpdateUser(idTokenResult.token)
+                if(result1){
+                    console.log("Create or Update Res", result1)
+                    dispatch({
+                        type : 'LOGGED_IN_USER',
+                        payload : {
+                            name : result1.data.name,
+                            email : result1.data.email,
+                            token : idTokenResult.token,
+                            role : result1.data.role,
+                            _id : result1.data._id
+                        }
+                    })
+                }
+                navigate('/')
             }
-            console.log(result)
         }catch(err){
             console.log(err)
-            toast.error(error.message)
+            toast.error(err.message)
         }
-        
     }
     const completeRegistrationForm = () => (
         <form onSubmit={handleSubmit}>

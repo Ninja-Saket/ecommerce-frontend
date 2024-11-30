@@ -10,6 +10,7 @@ import Home from './pages/Home'
 import Header from './components/nav/Header'
 import RegisterComplete from './pages/auth/RegisterComplete'
 import ForgotPassword from './pages/auth/ForgotPassword'
+import { currentUser } from './apiCalls/auth'
 
 const App = ()=> {
   const [loading, setLoading] = useState(true);
@@ -17,20 +18,31 @@ const App = ()=> {
   // check firebase auth state
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      if(user){
-        const idTokenResult = await user.getIdTokenResult()
-        dispatch({
-          type : 'LOGGED_IN_USER',
-          payload : {
-            email : user.email,
-            token : idTokenResult.token
+      try{
+        if(user){
+          const idTokenResult = await user.getIdTokenResult()
+          const result1 = await currentUser(idTokenResult.token)
+          if(result1){
+            console.log("Current User Res", result1)
+            dispatch({
+                type : 'LOGGED_IN_USER',
+                payload : {
+                    name : result1.data.name,
+                    email : result1.data.email,
+                    token : idTokenResult.token,
+                    role : result1.data.role,
+                    _id : result1.data._id
+                }
+            })
           }
-        })
-      }else{
-        dispatch({
-          type : 'LOGOUT',
-          payload : null
-        })
+        }else{
+          dispatch({
+            type : 'LOGOUT',
+            payload : null
+          })
+        }
+      }catch(err){
+        console.log(err)
       }
       setLoading(false)
     })

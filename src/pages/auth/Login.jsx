@@ -7,6 +7,7 @@ import {auth, googleAuthProvider} from '../../firebase'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { createOrUpdateUser } from '../../apiCalls/auth';
 
 const Login = ({}) => {
     const [email, setEmail] = useState("")
@@ -31,13 +32,21 @@ const Login = ({}) => {
             console.log('user',user)
             const idTokenResult = await user.getIdTokenResult()
             console.log('Idtoken Result ', idTokenResult)
-            dispatch({
-                type : 'LOGGED_IN_USER',
-                payload : {
-                    email : user.email,
-                    token : idTokenResult.token
-                }
-            })
+
+            const result1 = await createOrUpdateUser(idTokenResult.token)
+            if(result1){
+                console.log("Create or Update Res", result1)
+                dispatch({
+                    type : 'LOGGED_IN_USER',
+                    payload : {
+                        name : result1.data.name,
+                        email : result1.data.email,
+                        token : idTokenResult.token,
+                        role : result1.data.role,
+                        _id : result1.data._id
+                    }
+                })
+            }
             navigate('/')
         }catch(err){
             setLoading(false)
@@ -51,14 +60,21 @@ const Login = ({}) => {
             const result = await signInWithPopup(auth, googleAuthProvider)
             const {user} = result;
             const idTokenResult = await user.getIdTokenResult()
-            dispatch({
-                type : 'LOGGED_IN_USER',
-                payload : {
-                    email : user.email,
-                    token : idTokenResult
-                }
-            })
-            history.push('/')
+            const result1 = await createOrUpdateUser(idTokenResult.token)
+            if(result1){
+                console.log("Create or Update Res in google login", result1)
+                dispatch({
+                    type : 'LOGGED_IN_USER',
+                    payload : {
+                        name : result1.data.name,
+                        email : result1.data.email,
+                        token : idTokenResult.token,
+                        role : result1.data.role,
+                        _id : result1.data._id
+                    }
+                })
+            }
+            navigate('/')
         }catch(err){
             console.log(err)
             toast.error(err.message)
