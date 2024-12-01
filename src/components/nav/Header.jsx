@@ -16,7 +16,7 @@ const Header = () => {
   const [current, setCurrent] = useState("home");
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const {user} = useSelector((state)=> ({...state}))
+  const user = useSelector((state)=> state.user)
   const logout = () => {
     auth.signOut()
     dispatch({

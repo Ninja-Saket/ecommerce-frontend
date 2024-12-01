@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 const Register = () => {
     const [email, setEmail] = useState("")
     const navigate = useNavigate()
-    const {user} = useSelector((state)=> ({...state}))
+    const user = useSelector((state)=> state.user)
 
     useEffect(()=> {
         if(user && user.token){

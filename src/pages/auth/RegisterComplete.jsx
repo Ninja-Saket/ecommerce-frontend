@@ -12,7 +12,7 @@ const RegisterComplete = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const {user} = useSelector((state) => ({...state}))
+    const user = useSelector((state) => state.user)
 
     useEffect(()=> {
         setEmail(window.localStorage.getItem("emailForRegistration"))

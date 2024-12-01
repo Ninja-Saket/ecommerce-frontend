@@ -16,18 +16,19 @@ const Login = ({}) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const roleBasedRedirect = (result) => {
-        if(result.data.role === "admin"){
+    const roleBasedRedirect = (user) => {
+        if(user.role === "admin"){
             navigate("/admin/dashboard")
         }else{
             navigate("/user/history")
         }
     }
 
-    const {user} = useSelector((state) => ({...state}))
+    const user = useSelector((state) => state.user)
+
     useEffect(() => {
         if(user && user.token){
-            navigate('/')
+            roleBasedRedirect(user)
         }
     }, [user])
     
@@ -54,7 +55,7 @@ const Login = ({}) => {
                         _id : result1.data._id
                     }
                 })
-                roleBasedRedirect(result1)
+                roleBasedRedirect(result1.data)
             }
         }catch(err){
             setLoading(false)
@@ -81,7 +82,7 @@ const Login = ({}) => {
                         _id : result1.data._id
                     }
                 })
-                roleBasedRedirect(result1)
+                roleBasedRedirect(result1.data)
             }
         }catch(err){
             console.log(err)

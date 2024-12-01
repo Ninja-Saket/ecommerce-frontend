@@ -9,7 +9,7 @@ const ForgotPassword = () => {
     const [email, setEmail] = useState("")
     const [loading, setLoading] = useState(false)
 
-    const {user} = useSelector((state) => ({...state}))
+    const user = useSelector((state) => state.user)
     const navigate = useNavigate()
 
     useEffect(() => {

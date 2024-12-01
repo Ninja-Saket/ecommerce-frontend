@@ -11,6 +11,8 @@ import Header from './components/nav/Header'
 import RegisterComplete from './pages/auth/RegisterComplete'
 import ForgotPassword from './pages/auth/ForgotPassword'
 import { currentUser } from './apiCalls/auth'
+import History from './pages/user/History'
+import UserRoute from './components/routes/UserRoute'
 
 const App = ()=> {
   const [loading, setLoading] = useState(true);
@@ -58,6 +60,9 @@ const App = ()=> {
         <Route path='/register' element={<Register/>}/>
         <Route path='/register/complete' element={<RegisterComplete/>}/>
         <Route path='/forgot/password' element={<ForgotPassword/>}></Route>
+        <Route path='/user/' element={<UserRoute/>}>
+          <Route path='history' element={<History/>}/>
+        </Route>
       </Routes>
     </Router>
   )
