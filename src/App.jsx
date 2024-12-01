@@ -13,6 +13,8 @@ import ForgotPassword from './pages/auth/ForgotPassword'
 import { currentUser } from './apiCalls/auth'
 import History from './pages/user/History'
 import UserRoute from './components/routes/UserRoute'
+import Password from './pages/user/Password'
+import Wishlist from './pages/user/Wishlist'
 
 const App = ()=> {
   const [loading, setLoading] = useState(true);
@@ -62,6 +64,8 @@ const App = ()=> {
         <Route path='/forgot/password' element={<ForgotPassword/>}></Route>
         <Route path='/user/' element={<UserRoute/>}>
           <Route path='history' element={<History/>}/>
+          <Route path='password' element={<Password/>}/>
+          <Route path='wishlist' element={<Wishlist/>}/>
         </Route>
       </Routes>
     </Router>
