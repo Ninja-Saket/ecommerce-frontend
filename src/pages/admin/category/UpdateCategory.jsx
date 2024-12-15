@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { useParams, useNavigate } from "react-router-dom"
-import { getCategory, updateCategory } from "../../../apiCalls/category"
+import { getCategory, updateCategory } from "../../../apiCalls/category.js"
 import { toast } from "react-toastify"
 import AdminNav from "../../../components/nav/AdminNav.jsx"
 import CategoryForm from "../../../components/forms/CategoryForm.jsx"
 
-const CategoryUpdate = ()=> {
+const UpdateCategory = ()=> {
     const userToken = useSelector((state) => state.user.token)
     const [name, setName] = useState("")
     const [loading, setLoading] = useState(false)
@@ -60,4 +60,4 @@ const CategoryUpdate = ()=> {
       );
 }
 
-export default CategoryUpdate
+export default UpdateCategory

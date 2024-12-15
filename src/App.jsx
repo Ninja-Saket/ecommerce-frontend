@@ -17,8 +17,8 @@ import Password from './pages/user/Password'
 import Wishlist from './pages/user/Wishlist'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminRoute from './components/routes/AdminRoutes'
-import CategoryCreate from './pages/admin/category/CategoryCreate'
-import CategoryUpdate from './pages/admin/category/CategoryUpdate'
+import CreateCategory from './pages/admin/category/CreateCategory'
+import UpdateCategory from './pages/admin/category/UpdateCategory'
 
 const App = ()=> {
   const [loading, setLoading] = useState(true);
@@ -73,8 +73,8 @@ const App = ()=> {
         </Route>
         <Route path='/admin/' element={<AdminRoute/>}>
           <Route path='dashboard' element={<AdminDashboard/>}/>
-          <Route path='category' element={<CategoryCreate/>}/>
-          <Route path='category/:slug' element={<CategoryUpdate/>} />
+          <Route path='category' element={<CreateCategory/>}/>
+          <Route path='category/:slug' element={<UpdateCategory/>} />
         </Route>
       </Routes>
     </Router>

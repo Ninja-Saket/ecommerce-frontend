@@ -8,7 +8,7 @@ import {EditOutlined, DeleteOutlined} from "@ant-design/icons"
 import CategoryForm from "../../../components/forms/CategoryForm.jsx"
 import LocalSearch from "../../../components/forms/LocalSearch.jsx"
 
-const CategoryCreate = () => {
+const CreateCategory = () => {
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
   const [categories, setCategories] = useState([])
@@ -100,4 +100,4 @@ const CategoryCreate = () => {
   );
 };
 
-export default CategoryCreate;
+export default CreateCategory;
