@@ -19,6 +19,8 @@ import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminRoute from './components/routes/AdminRoutes'
 import CreateCategory from './pages/admin/category/CreateCategory'
 import UpdateCategory from './pages/admin/category/UpdateCategory'
+import CreateSubCategory from './pages/admin/subCategory/CreateSubCategory'
+import UpdateSubCategory from './pages/admin/subCategory/UpdateSubCategory'
 
 const App = ()=> {
   const [loading, setLoading] = useState(true);
@@ -75,6 +77,8 @@ const App = ()=> {
           <Route path='dashboard' element={<AdminDashboard/>}/>
           <Route path='category' element={<CreateCategory/>}/>
           <Route path='category/:slug' element={<UpdateCategory/>} />
+          <Route path='subCategory' element={<CreateSubCategory/>}/>
+          <Route path='subCategory/:slug' element={<UpdateSubCategory/>} />
         </Route>
       </Routes>
     </Router>

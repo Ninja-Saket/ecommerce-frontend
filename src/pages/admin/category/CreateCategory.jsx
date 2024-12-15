@@ -63,7 +63,7 @@ const CreateCategory = () => {
   
   const searched = (keyword) => {
     return (c) => {
-      return c.name.toLowerCase().includes(keyword)
+      return c.name.toLowerCase().includes(keyword.toLowerCase())
     }
   }
 
