@@ -6,11 +6,13 @@ import {getCategories, createCategory, removeCategory} from '../../../apiCalls/c
 import { Link } from "react-router-dom"
 import {EditOutlined, DeleteOutlined} from "@ant-design/icons"
 import CategoryForm from "../../../components/forms/CategoryForm.jsx"
+import LocalSearch from "../../../components/forms/LocalSearch.jsx"
 
 const CategoryCreate = () => {
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
   const [categories, setCategories] = useState([])
+  const [keyword, setKeyword] = useState("")
   const userToken = useSelector(state => state.user.token)
 
   const loadCategories = async () => {
@@ -58,6 +60,13 @@ const CategoryCreate = () => {
     }
   }
 
+  
+  const searched = (keyword) => {
+    return (c) => {
+      return c.name.toLowerCase().includes(keyword)
+    }
+  }
+
   useEffect(() => {
     loadCategories()
   }, [])
@@ -70,8 +79,9 @@ const CategoryCreate = () => {
         <div className="col">
           {loading ? (<h4 className="text-danger">Loading....</h4>) : (<h4>Create Category</h4>)}
           <CategoryForm handleSubmit={handleSubmit} name={name} setName={setName}/>
+          <LocalSearch keyword={keyword} setKeyword={setKeyword}/>
           <hr />
-          {categories.map((c)=> 
+          {categories.filter(searched(keyword)).map((c)=> 
             (<div key={c._id} className="alert alert-primary">
               {c.name}
               <span className="btn btn-sm float-end text-danger" onClick={() => handleRemove(c.slug)}>
