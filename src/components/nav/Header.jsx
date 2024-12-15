@@ -81,7 +81,7 @@ const Header = () => {
       icon: <SettingOutlined />,
       children: [
         {
-          label: "Option 1",
+          label: (user && user.role === "admin") ? <Link to="/admin/dashboard">Dashboard</Link> : <Link to="/user/history">Dashboard</Link>,
           key: "option1",
         },
         {

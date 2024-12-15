@@ -1,8 +1,5 @@
 import React from "react"
-import { Link } from "react-router-dom";
-import Password from "../../pages/user/Password";
-import Wishlist from "../../pages/user/Wishlist";
-import History from "../../pages/user/History";
+import { Link } from "react-router-dom"
 
 const UserNav = () => {
     return (

@@ -16,4 +16,12 @@ const currentUser = async (authToken) => {
     })
 }
 
-export {createOrUpdateUser, currentUser}
+const currentAdmin = async (authToken) => {
+    return axios.post(`${import.meta.env.VITE_APP_API}/current-admin`, {}, {
+        headers : {
+            authToken
+        }
+    })
+}
+
+export {createOrUpdateUser, currentUser, currentAdmin}
