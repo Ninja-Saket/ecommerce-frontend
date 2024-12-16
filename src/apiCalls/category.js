@@ -50,10 +50,18 @@ const createCategory = async (category, authToken) => {
   return result;
 };
 
+const getCategorySubCategories = async (_id) => {
+  const result = await axios.get(
+    `${import.meta.env.VITE_APP_API}/category/subCategories/${_id}`
+  );
+  return result;
+};
+
 export {
   getCategories,
   getCategory,
   removeCategory,
   updateCategory,
   createCategory,
+  getCategorySubCategories
 };
