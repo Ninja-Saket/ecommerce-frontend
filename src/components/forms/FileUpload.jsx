@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useRef} from "react"
 import Resizer from "react-image-file-resizer"
 import axios from 'axios'
 import { useSelector } from "react-redux"
@@ -7,6 +7,7 @@ import { Badge, Avatar, Space } from "antd"
 
 const FileUpload = ({values, setValues, setLoading}) => {
     const userToken = useSelector(state => state.user.token)
+    const fileInputRef = useRef(null)
     const fileUploadAndResize = (e)=> {
         let files = e.target.files
         let allUploadedFiles = values.images
@@ -23,6 +24,9 @@ const FileUpload = ({values, setValues, setLoading}) => {
                         setLoading(false)
                         allUploadedFiles.push(result.data)
                         setValues({...values, images : allUploadedFiles})
+                        if(fileInputRef.current){
+                            fileInputRef.current.value = ""
+                        }
                     }).catch(err => {
                         noerror = false
                         setLoading(false)
@@ -72,7 +76,7 @@ const FileUpload = ({values, setValues, setLoading}) => {
             </div>
             <div className="row">
                 <label className="col-md-2 mx-2 my-2 btn btn-info">Choose File
-                    <input type="file" multiple accept="images/*" onChange={fileUploadAndResize} hidden/>
+                    <input type="file" multiple accept="images/*" onChange={fileUploadAndResize} hidden ref={fileInputRef}/>
                 </label>
             </div>
         </>
