@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const getProducts = async () => {
-  const result = axios.get(`${import.meta.env.VITE_APP_API}/products`);
+const getProducts = async (count) => {
+  const result = axios.get(`${import.meta.env.VITE_APP_API}/products/${count}`);
   return result;
 };
 
