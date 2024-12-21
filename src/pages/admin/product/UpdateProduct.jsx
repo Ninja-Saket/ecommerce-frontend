@@ -45,7 +45,7 @@ const UpdateProduct = ()=> {
     const handleSubmit = async (e)=> {
       e.preventDefault()
       setLoading(true)
-      const updatedValue = {...values, subCategories : subCategoriesId, category :values.category._id }
+      const updatedValue = {...values, subCategories : subCategoriesId }
       setValues(updatedValue)
       try{
         const result = await updateProduct(slug, updatedValue, userToken);

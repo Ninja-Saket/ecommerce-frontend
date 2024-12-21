@@ -114,7 +114,7 @@ const UpdateProductForm = ({
           name="category"
           className="form-control"
           onChange={handleCategoryChange}
-          value={category._id}
+          value={typeof category === 'object' ? category._id : category}
         >
           {categories.length > 0 &&
             categories.map((c) => {
