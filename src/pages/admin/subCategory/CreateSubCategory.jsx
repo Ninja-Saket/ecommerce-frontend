@@ -61,7 +61,7 @@ const CreateSubCategory = () => {
     } catch (err) {
       console.log(err);
       setLoading(false);
-      if (err.response.status === 400) {
+      if (err.response && err.response.status === 400) {
         toast.error(err.response.data);
       }
     }
@@ -76,7 +76,7 @@ const CreateSubCategory = () => {
         toast.success(`SubCategory "${result.data.name}" deleted Successfully`);
         loadSubCategories();
       } catch (err) {
-        if (err.response.status == 400) {
+        if (err.response && err.response.status == 400) {
           setLoading(false);
           toast.error(err.response.data);
         }

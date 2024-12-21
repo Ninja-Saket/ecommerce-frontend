@@ -37,12 +37,11 @@ const AllProducts = () => {
         toast.success(`Product ${result.data.title} is deleted`)
       }
     }catch(err){
-      if(err.response.status === 400){
+      if(err.response && err.response.status === 400){
         toast.error(err.response.data)
       }
       console.log(err)
     }
-    
   }
 
   return (

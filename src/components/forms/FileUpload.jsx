@@ -69,6 +69,7 @@ const FileUpload = ({values, setValues, setLoading}) => {
                             size={100}
                             shape="square"
                             className="px-0 mx-0"
+                            onClick={(e) => e.stopPropagation()}
                             />
                         </Badge>
                     </Space>

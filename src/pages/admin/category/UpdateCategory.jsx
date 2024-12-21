@@ -18,7 +18,7 @@ const UpdateCategory = ()=> {
             const result = await getCategory(slug);
             setName(result.data.name)
         }catch(err){
-            if(err.response.status == 400){
+            if(err.response && err.response.status == 400){
                 toast.error(err.response.data); 
             }
         }
@@ -39,7 +39,7 @@ const UpdateCategory = ()=> {
         }catch(err){
             console.log(err)
             setLoading(false)
-            if(err.response.status == 400){
+            if(err.response && err.response.status == 400){
                 toast.error(`${err.response.data}`)
             }
         }
