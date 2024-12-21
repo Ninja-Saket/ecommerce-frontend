@@ -8,10 +8,11 @@ const ProductCard = ({ product }) => {
     const {title, description, slug, images} = product
   return (
     <Card
+      className="pt-1"
       cover={
         <img
           src={images && images.length ? images[0].url : laptop}
-          style={{ height: "150px", objectFit: "contain" }}
+          style={{ height: "150px", objectFit: "contain"}}
         />
       }
       actions={[
