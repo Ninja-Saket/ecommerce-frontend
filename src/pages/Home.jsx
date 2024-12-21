@@ -1,50 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { getProducts } from "../apiCalls/product";
-import ProductCard from "../components/cards/ProductCard";
+import React from "react";
 import Jumbotron from "../components/cards/Jumbotron";
-import LoadingCard from "../components/cards/LoadingCard";
+import NewArrivals from "../components/home/NewArrivals";
+import BestSellers from "../components/home/BestSellers";
 
 const Home = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  const loadAllProducts = async () => {
-    try {
-      setLoading(true);
-      const result = await getProducts(10);
-      setProducts(result.data);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    loadAllProducts();
-  }, []);
   return (
     <>
-      <div className="p-5 text-center bg-light shadow-5 rounded mb-5 text-danger font-weight-bold h1">
-        {loading ? (
-          <h4>Loading...</h4>
-        ) : (
-          <Jumbotron text={["New Arrivals", "Best Sellers"]} />
-        )}
+      <div className="p-5 text-center shadow-5 rounded mb-5 text-danger font-weight-bold display-1" style={{"backgroundColor" : "#cecfd6"}}>
+        <Jumbotron text={["Latest Products","New Arrivals", "Best Sellers"]} />
       </div>
-      <div className="container">
-        {loading ? (
-          <LoadingCard count={3}/>
-        ) : (
-          <div className="row">
-            {products.map((product) => (
-              <div key={product._id} className="col-md-4 p-1">
-                <ProductCard product={product} />
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+
+      <h4 className="p-3 text-center shadow-5 rounded mb-5 mt-5 display-5" style={{"backgroundColor" : "#cecfd6"}}>
+          New Arrivals
+      </h4>
+      <NewArrivals/>
+
+      <h4 className="p-3 text-center shadow-5 rounded mb-5 mt-5 display-5" style={{"backgroundColor" : "#cecfd6"}}>
+          Best Sellers
+      </h4>
+      <BestSellers/>
+      <br/> <br/>
     </>
   );
 };

@@ -50,10 +50,19 @@ const createProduct = async (product, authToken) => {
   return result;
 };
 
+const getSortedProducts = async (sort, order, limit) => {
+  const result = await axios.post(`${import.meta.env.VITE_APP_API}/products`, {
+    sort,
+    order,
+    limit,
+  });
+  return result
+};
 export {
   getProducts,
   getProduct,
   removeProduct,
   updateProduct,
   createProduct,
+  getSortedProducts,
 };
