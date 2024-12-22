@@ -24,6 +24,7 @@ import UpdateSubCategory from './pages/admin/subCategory/UpdateSubCategory'
 import CreateProduct from './pages/admin/product/CreateProduct'
 import AllProducts from './pages/admin/product/AllProducts'
 import UpdateProduct from './pages/admin/product/UpdateProduct'
+import Product from './pages/Product'
 
 const App = ()=> {
   const [loading, setLoading] = useState(true);
@@ -86,6 +87,7 @@ const App = ()=> {
           <Route path='products' element={<AllProducts/>}/>
           <Route path='product/:slug' element={<UpdateProduct/>}/>
         </Route>
+        <Route path='/product/:slug' element={<Product/>}/>
       </Routes>
     </Router>
   )
