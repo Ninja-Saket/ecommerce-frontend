@@ -6,11 +6,13 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import laptop from "../../images/dell-precision.avif";
 import ProductListItems from "./ProductListItems";
+import StarRating from "react-star-ratings";
+import RatingModal from "../modal/RatingModal";
 const { Meta } = Card;
-const {TabPane} = Tabs;
+const { TabPane } = Tabs;
 
 const SingleProduct = ({ product }) => {
-  const { title, images, description } = product;
+  const { _id, title, images, description } = product;
   return (
     <>
       <div className="col-md-7">
@@ -22,15 +24,15 @@ const SingleProduct = ({ product }) => {
               })}
           </Carousel>
         ) : (
-          <Card cover={<img src={laptop} className="mb-3 card-image"/>}/>
+          <Card cover={<img src={laptop} className="mb-3 card-image" />} />
         )}
         <Tabs type="card">
-            <TabPane tab="Description" key="1">
-                {description && description}
-            </TabPane>
-            <TabPane tab="More" key="2">
-                Call us on xyz xyz xyzx to learn more about this product.
-            </TabPane>
+          <TabPane tab="Description" key="1">
+            {description && description}
+          </TabPane>
+          <TabPane tab="More" key="2">
+            Call us on xyz xyz xyzx to learn more about this product.
+          </TabPane>
         </Tabs>
       </div>
       <div className="col-md-5">
@@ -44,9 +46,21 @@ const SingleProduct = ({ product }) => {
             <Link to="/">
               <HeartOutlined classID="text-info" /> <br /> Add to wishlist
             </Link>,
+            <RatingModal>
+              <StarRating
+                name={_id}
+                numberOfStars={5}
+                rating={2}
+                changeRating={(newRating, name) =>
+                  console.log("New Rating ", newRating, "Name ", name)
+                }
+                isSelectable={true}
+                starRatedColor="red"
+              />
+            </RatingModal>,
           ]}
         >
-          <ProductListItems product={product}/>
+          <ProductListItems product={product} />
         </Card>
       </div>
     </>
