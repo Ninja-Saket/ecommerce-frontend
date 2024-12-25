@@ -77,6 +77,13 @@ const setProductRating = async (productId, star, authToken) => {
   return result;
 };
 
+const getRelated = async(productId) => {
+  const result = await axios.get(
+    `${import.meta.env.VITE_APP_API}/product/related/${productId}`,
+  );
+  return result
+}
+
 export {
   getProducts,
   getProduct,
@@ -85,5 +92,6 @@ export {
   createProduct,
   getSortedProducts,
   getProductsCount,
-  setProductRating
+  setProductRating,
+  getRelated
 };

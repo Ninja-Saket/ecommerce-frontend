@@ -4,10 +4,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import SingleProduct from "../components/cards/SingleProduct";
 import { useSelector } from "react-redux";
-import AverageRating from "./AverageRating";
-
+import { getRelated } from "../apiCalls/product";
+import ProductCard from "../components/cards/ProductCard"
 const Product = ()=> {
     const [product, setProduct] = useState({})
+    const [related, setRelated] = useState([])
     const [star, setStar] = useState(0)
     const user = useSelector((state) => state.user ? state.user : null)
     const userToken = user ? user.token : null
@@ -18,6 +19,8 @@ const Product = ()=> {
         try{
             const result = await getProduct(slug)
             setProduct(result.data)
+            const relatedProduct = await getRelated(result.data._id)
+            setRelated(relatedProduct.data)
         }catch(err){
             if(err.response && err.response.status === 400){
                 toast.error(err.response.data)
@@ -57,6 +60,7 @@ const Product = ()=> {
                     <hr/>
                 </div>
             </div>
+            <div className="row pb-5">{related.length ? related.map((r)=> (<div key={r._id} className="col-md-4"><ProductCard product={r}/></div>)) : <div className="text-center col">No Products Found</div>}</div>
         </div>
     )
 }
