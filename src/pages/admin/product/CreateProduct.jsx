@@ -31,7 +31,7 @@ const CreateProduct = () => {
   const [loading, setLoading] = useState(false);
   const [subCategoryOptions, setSubCategoryOptions] = useState([]);
   const [showSubCategories, setShowSubCategories] = useState(false);
-  const userToken = useSelector((state) => state.user.token);
+  const userToken = useSelector((state) => state.user && state.user.token ? state.user.token : null);
 
   const loadCategories = async () => {
     try {

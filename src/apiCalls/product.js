@@ -63,6 +63,20 @@ const getProductsCount = async () => {
   const result = await axios.get(`${import.meta.env.VITE_APP_API}/products/total`);
   return result
 }
+
+const setProductRating = async (productId, star, authToken) => {
+  const result = await axios.put(
+    `${import.meta.env.VITE_APP_API}/product/star/${productId}`,
+    {star},
+    {
+      headers: {
+        authToken,
+      },
+    }
+  );
+  return result;
+};
+
 export {
   getProducts,
   getProduct,
@@ -70,5 +84,6 @@ export {
   updateProduct,
   createProduct,
   getSortedProducts,
-  getProductsCount
+  getProductsCount,
+  setProductRating
 };

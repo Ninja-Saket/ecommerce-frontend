@@ -13,7 +13,7 @@ const CreateCategory = () => {
   const [loading, setLoading] = useState(false)
   const [categories, setCategories] = useState([])
   const [keyword, setKeyword] = useState("")
-  const userToken = useSelector(state => state.user.token)
+  const userToken = useSelector(state => state.user && state.user.token ? state.user.token : null)
 
   const loadCategories = async () => {
     try{

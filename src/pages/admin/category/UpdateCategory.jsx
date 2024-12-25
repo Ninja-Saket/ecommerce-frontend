@@ -7,7 +7,7 @@ import AdminNav from "../../../components/nav/AdminNav.jsx"
 import CategoryForm from "../../../components/forms/CategoryForm.jsx"
 
 const UpdateCategory = ()=> {
-    const userToken = useSelector((state) => state.user.token)
+    const userToken = useSelector((state) => state.user && state.user.token ? state.user.token : null)
     const [name, setName] = useState("")
     const [loading, setLoading] = useState(false)
     const {slug} = useParams()

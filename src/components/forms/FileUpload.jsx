@@ -6,7 +6,7 @@ import { toast } from "react-toastify"
 import { Badge, Avatar, Space } from "antd"
 
 const FileUpload = ({values, setValues, setLoading}) => {
-    const userToken = useSelector(state => state.user.token)
+    const userToken = useSelector(state => state.user && state.user.token ? state.user.token : null)
     const fileInputRef = useRef(null)
     const fileUploadAndResize = (e)=> {
         let files = e.target.files

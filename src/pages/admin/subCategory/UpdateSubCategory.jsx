@@ -27,7 +27,7 @@ const UpdateSubCategory = () => {
   const [subCategory, setSubCategory] = useState('');
   const {slug} = useParams(); 
   const navigate = useNavigate();
-  const userToken = useSelector((state) => state.user.token);
+  const userToken = useSelector((state) => state.user && state.user.token ? state.user.token : null);
 
   const loadCategories = async () => {
     try {

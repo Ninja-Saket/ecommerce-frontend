@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 const AllProducts = () => {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(false)
-  const userToken = useSelector(state => state.user.token)
+  const userToken = useSelector(state => state.user && state.user.token ? state.user.token : null)
 
   const loadAllProducts = async ()=> {
     try{

@@ -3,10 +3,13 @@ import { Card } from "antd"
 import { EyeOutlined, ShoppingCartOutlined } from "@ant-design/icons"
 import laptop from "../../images/dell-precision.avif"
 import { Link } from "react-router-dom"
+import AverageRating from "../../pages/AverageRating"
 const {Meta} = Card
 const ProductCard = ({ product }) => {
     const {title, description, slug, images} = product
   return (
+    <>
+    {AverageRating(product)}
     <Card
       className="pt-1"
       cover={
@@ -29,6 +32,7 @@ const ProductCard = ({ product }) => {
     >
       <Meta title={title} description={description} />
     </Card>
+    </>
   );
 };
 

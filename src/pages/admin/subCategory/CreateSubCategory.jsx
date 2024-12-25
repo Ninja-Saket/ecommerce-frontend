@@ -27,7 +27,7 @@ const CreateSubCategory = () => {
   const [category, setCategory] = useState("");
   // Store all subcategories
   const [subCategories, setSubCategories] = useState([]);
-  const userToken = useSelector((state) => state.user.token);
+  const userToken = useSelector((state) => state.user && state.user.token ? state.user.token : null);
 
   const loadCategories = async () => {
     try {

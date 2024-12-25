@@ -8,10 +8,11 @@ import laptop from "../../images/dell-precision.avif";
 import ProductListItems from "./ProductListItems";
 import StarRating from "react-star-ratings";
 import RatingModal from "../modal/RatingModal";
+import AverageRating from "../../pages/AverageRating";
 const { Meta } = Card;
 const { TabPane } = Tabs;
 
-const SingleProduct = ({ product }) => {
+const SingleProduct = ({ product, onStarClick , star}) => {
   const { _id, title, images, description } = product;
   return (
     <>
@@ -37,6 +38,7 @@ const SingleProduct = ({ product }) => {
       </div>
       <div className="col-md-5">
         <h1 className="bg-info p-3">{title}</h1>
+        {AverageRating(product)}
         <Card
           actions={[
             <>
@@ -50,10 +52,8 @@ const SingleProduct = ({ product }) => {
               <StarRating
                 name={_id}
                 numberOfStars={5}
-                rating={2}
-                changeRating={(newRating, name) =>
-                  console.log("New Rating ", newRating, "Name ", name)
-                }
+                rating={star}
+                changeRating={onStarClick}
                 isSelectable={true}
                 starRatedColor="red"
               />
