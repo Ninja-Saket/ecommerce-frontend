@@ -20,7 +20,7 @@ const CategoryList = () => {
     }
 
     const showCategories = () => {
-        return categories.map((c) => (<div className="col btn btn-outlined-primary btn-lg btn-block m-3 no-wrap-text" style={{whiteSpace : "nowrap"}}>
+        return categories.map((c) => (<div key={c._id} className="col btn btn-outlined-primary btn-lg btn-block m-3 no-wrap-text" style={{whiteSpace : "nowrap"}}>
             <Link to={`/category/${c.slug}`}>{c.name}</Link>
             </div>))
     }
