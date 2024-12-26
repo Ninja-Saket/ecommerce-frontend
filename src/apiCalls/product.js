@@ -91,6 +91,12 @@ const getRelatedByCategory = async(categoryId) => {
   return result
 }
 
+const getRelatedBySubCategory = async (subCategoryId) => {
+  const result = await axios.get(
+    `${import.meta.env.VITE_APP_API}/product/relatedbysubcategory/${subCategoryId}`
+  )
+  return result
+}
 export {
   getProducts,
   getProduct,
@@ -101,5 +107,6 @@ export {
   getProductsCount,
   setProductRating,
   getRelated,
-  getRelatedByCategory
+  getRelatedByCategory,
+  getRelatedBySubCategory
 };
