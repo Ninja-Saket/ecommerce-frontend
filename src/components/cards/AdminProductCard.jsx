@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const { Meta } = Card;
 
 const AdminProductCard = ({ product, handleRemove }) => {
-  const { title, description, images, slug } = product;
+  const { title, description, images, slug, price } = product;
 
   return (
     <Card
@@ -21,7 +21,7 @@ const AdminProductCard = ({ product, handleRemove }) => {
         <Link to={`/admin/product/${slug}`}><EditOutlined className="text-warning"/></Link>, <DeleteOutlined className="text-danger" onClick={()=> handleRemove(slug)}/>
       ]}
     >
-      <Meta title={title} description={description} />
+      <Meta title={`${title} - $${price}`} description={description} />
     </Card>
   );
 };
