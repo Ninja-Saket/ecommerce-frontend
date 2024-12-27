@@ -7,9 +7,10 @@ import {
   UserOutlined,
   UserAddOutlined,
   LogoutOutlined,
+  ShoppingOutlined
 } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-const { SubMenu, Item } = Menu;
+import Search from "../forms/Search";
 import {auth} from '../../firebase'
 
 const Header = () => {
@@ -59,6 +60,11 @@ const Header = () => {
       label: <Link to="/">Home</Link>,
       key: "home",
       icon: <AppstoreOutlined />,
+    },
+    {
+      label :<Link to='/shop'>Shop</Link>,
+      key : 'shop',
+      icon : <ShoppingOutlined/>
     }
   ];
 
@@ -75,6 +81,10 @@ const Header = () => {
     },
   ]
   const itemsRightAfterLogin = [
+    {
+      label : <Search/>,
+      key: "search"
+    },
     {
       label: 'User',
       key: "username",

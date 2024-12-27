@@ -4,6 +4,7 @@ import NewArrivals from "../components/home/NewArrivals";
 import BestSellers from "../components/home/BestSellers";
 import CategoryList from "../components/category/CategoryList";
 import SubCategoryList from "../components/subCategory/subCategoryList";
+import Search from "../components/forms/Search";
 
 const Home = () => {
   return (
