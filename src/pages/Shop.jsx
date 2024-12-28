@@ -4,7 +4,8 @@ import {getCategories} from '../apiCalls/category'
 import {useSelector, useDispatch} from 'react-redux'
 import ProductCard from '../components/cards/ProductCard'
 import {Menu, Slider, Checkbox} from 'antd'
-import {DollarOutlined, DownSquareOutlined} from '@ant-design/icons'
+import {DollarOutlined, DownSquareOutlined, StarOutlined} from '@ant-design/icons'
+import Star from '../components/forms/Star'
 
 
 const Shop = () => {
@@ -14,9 +15,50 @@ const Shop = () => {
     const [categories, setCategories] = useState([])
     const [menuItems, setMenuItems] = useState([])
     const [categoryIds, setCategoryIds] = useState([])
+    const [stars, setStars] = useState('')
     const dispatch = useDispatch()
     const search = useSelector((state)=> state.search)
     const {text} = search
+
+    const handleStarClick = async (num)=> {
+        try{
+            console.log('Clicked star :--> ', num)
+            dispatch({type : 'SEARCH_QUERY',
+                payload : {text : ''}
+            })
+            setPrice([0,0])
+            setCategoryIds([])
+            setStars(num)
+            await loadProductsByFilter({stars : num})
+        }catch(err){
+            console.log(err)
+        }
+    }
+
+    const showStars = ()=> {
+       return (<div>
+            <Star
+                starClick={handleStarClick}
+                numberOfStars={5}
+            />
+            <Star
+                starClick={handleStarClick}
+                numberOfStars={4}
+            />
+            <Star
+                starClick={handleStarClick}
+                numberOfStars={3}
+            />
+            <Star
+                starClick={handleStarClick}
+                numberOfStars={2}
+            />
+            <Star
+                starClick={handleStarClick}
+                numberOfStars={1}
+            />
+        </div>)
+    }
 
     const handleCheck = async (e)=> {
         try{
@@ -24,6 +66,7 @@ const Shop = () => {
                 payload : {text : ''}
             })
             setPrice([0,0])
+            setStars('')
             const categoryIdsInState = [...categoryIds]
             const currentCategory = e.target.value
             const currentCategoryIndex = categoryIdsInState.indexOf(currentCategory)
@@ -48,6 +91,7 @@ const Shop = () => {
         })
         setCategoryIds([])
         setPrice(value)
+        setStars('')
     }
 
     const showCategories = () => {
@@ -91,6 +135,9 @@ const Shop = () => {
 
     // 2. Load products based on user search input
     useEffect(()=> {
+        setCategoryIds([])
+        setPrice([0,0])
+        setStars('')
         const delayedApiCall = setTimeout(()=> {
             loadProductsByFilter({query : text})
         }, 400)
@@ -132,6 +179,18 @@ const Shop = () => {
                         label : <div className='custom-menu-categories '>{showCategories()}</div>
                     }
                 ]
+            },
+            {
+                key : '3',
+                label : 'Rating',
+                icon : <StarOutlined/>,
+                className : 'custom-star-item',
+                children : [
+                    {
+                        key : 'rating',
+                        label : showStars()
+                    }
+                ]
             }
         ]
         setMenuItems(items)
@@ -143,7 +202,7 @@ const Shop = () => {
                 <div className="col-md-3 pt-2">
                     <h4>Search/Filter</h4>
                     <Menu mode='inline'
-                        defaultOpenKeys={['1']}
+                        defaultOpenKeys={['1','2','3']}
                         items={menuItems}
                         className='custom-menu'
                     />

@@ -25,3 +25,9 @@
     padding: 12px;
     overflow-y: scroll;
 }
+
+.custom-star-item .ant-menu-item{
+    height: 250px;
+    padding-left: 22px !important;
+    overflow-y: scroll;
+}
