@@ -1,12 +1,29 @@
-import React from "react"
-import { Card } from "antd"
+import React, {useState} from "react"
+import { Card, Tooltip } from "antd"
 import { EyeOutlined, ShoppingCartOutlined } from "@ant-design/icons"
 import laptop from "../../images/dell-precision.avif"
 import { Link } from "react-router-dom"
 import AverageRating from "../../pages/AverageRating"
+import _ from 'lodash'
 const {Meta} = Card
 const ProductCard = ({ product }) => {
+    const [tooltip, setTooltip] = useState('Click to add')
     const {title, description, slug, images, price} = product
+    const handleAddToCart = ()=> {
+      let cart = []
+      if(typeof window !== 'undefined'){
+        if(!!localStorage.getItem('cart')){
+          cart = JSON.parse(localStorage.getItem('cart'))
+        }
+        cart.push({
+          ...product,
+          count : 1
+        })
+        const unique = _.uniqWith(cart, _.isEqual)
+        localStorage.setItem('cart', JSON.stringify(unique))
+        setTooltip('Added')
+      }
+    }
   return (
     <>
     {AverageRating(product)}
@@ -22,12 +39,14 @@ const ProductCard = ({ product }) => {
         <Link to={`/product/${slug}`}>
           <EyeOutlined className="text-warning" /> <br /> View Product
         </Link>,
-        <>
+        <Tooltip title={tooltip}>
+          <a onClick={handleAddToCart}>
             <ShoppingCartOutlined
             className="text-danger"
             onClick={() => handleRemove(slug)}
             /> <br/> Add to Cart
-        </>,
+          </a>
+        </Tooltip>
       ]}
     >
       <Meta title={`${title} - $${price}`} description={description} />
