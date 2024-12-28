@@ -1,10 +1,11 @@
 import React, {useState, useEffect, Children} from 'react'
 import {getProducts, getProductsByFilters} from '../apiCalls/product'
 import {getCategories} from '../apiCalls/category'
+import {getSubCategories} from '../apiCalls/subCategory'
 import {useSelector, useDispatch} from 'react-redux'
 import ProductCard from '../components/cards/ProductCard'
-import {Menu, Slider, Checkbox} from 'antd'
-import {DollarOutlined, DownSquareOutlined, StarOutlined} from '@ant-design/icons'
+import {Menu, Slider, Checkbox, Radio, Button} from 'antd'
+import {DollarOutlined, DownSquareOutlined, StarOutlined, CheckCircleOutlined, BorderOuterOutlined, BorderInnerOutlined} from '@ant-design/icons'
 import Star from '../components/forms/Star'
 
 
@@ -15,10 +16,124 @@ const Shop = () => {
     const [categories, setCategories] = useState([])
     const [menuItems, setMenuItems] = useState([])
     const [categoryIds, setCategoryIds] = useState([])
+    const [subCategories, setSubCategories] = useState([])
+    const [subCategoryId, setSubCategoryId] = useState('')
     const [stars, setStars] = useState('')
+    const [brands, setBrands] = useState(["Apple", "Samsung", "Microsoft", "Lenovo", "Asus"])
+    const [selectedBrand, setSelectedBrand] = useState('')
+    const [colors, setColors] = useState(["Black", "Brown", "Silver", "White", "Blue"])
+    const [selectedColor, setSelectedColor] = useState('')
+    const [shipping, setShipping] = useState('')
+
     const dispatch = useDispatch()
     const search = useSelector((state)=> state.search)
     const {text} = search
+
+    const handleEmptyFilter = async ()=> {
+        if(price[0] == 0 && price[1] == 0 && text == '' && categoryIds.length == 0 && subCategoryId == '' && stars == '' && selectedBrand == '' && selectedColor == ''){
+            await loadProductsByFilter()
+        }
+    }
+
+    const handleBrand = async (e)=> {
+        e.preventDefault()
+        try{
+            setSelectedColor('')
+            setSubCategoryId('')
+            dispatch({type : 'SEARCH_QUERY',
+                payload : {text : ''}
+            })
+            setPrice([0,0])
+            setCategoryIds([])
+            setStars('')
+            setShipping('')
+            setSelectedBrand(e.target.value)
+            await loadProductsByFilter({brand : e.target.value})
+        }catch(err){
+            console.log(err)
+        }
+    }
+
+    const showBrands = ()=> {
+        return brands.map((b) => <Radio value={b} name={b} checked={b === selectedBrand} onChange={handleBrand}>{b}</Radio>)
+    }
+
+    const resetBrand = ()=> {
+        setSelectedBrand('')
+    }
+
+    const handleColor = async (e) => {
+        e.preventDefault()
+        try{
+            console.log('color :', e.target.value)
+            setSelectedBrand('')
+            setSubCategoryId('')
+            dispatch({type : 'SEARCH_QUERY',
+                payload : {text : ''}
+            })
+            setPrice([0,0])
+            setCategoryIds([])
+            setStars('')
+            setShipping('')
+            setSelectedColor(e.target.value)
+            await loadProductsByFilter({color : e.target.value})
+        }catch(err){
+            console.log(err)
+        }
+    }
+
+    const showColors = () => {
+        return colors.map((c) => (<Radio value={c} name={c} checked={c === selectedColor} onChange={handleColor}>{c}</Radio>))
+    }
+
+    const resetColor = () => {
+        setSelectedColor('')
+    }
+
+    const handleShipping = async (e) => {
+        e.preventDefault();
+        try{
+            setSelectedBrand('')
+            setSubCategoryId('')
+            dispatch({type : 'SEARCH_QUERY',
+                payload : {text : ''}
+            })
+            setPrice([0,0])
+            setCategoryIds([])
+            setStars('')
+            setSelectedColor('')
+            setShipping((prev) => {
+                if(prev == "Yes" && e.target.value == "Yes"){
+                    return ""
+                }
+                if(prev == "No" && e.target.value == "No"){
+                    return ""
+                }
+                return e.target.value
+            })
+        }catch(err){
+            console.log(err)
+        }
+    }
+
+    const showShipping = ()=> {
+        return <>
+            <Checkbox 
+                onChange={handleShipping}
+                value="Yes"
+                checked={shipping === "Yes"}
+            >
+                Yes
+            </Checkbox>
+            <Checkbox
+                onChange={handleShipping}
+                value="No"
+                checked={shipping === "No"}
+            >
+                No
+            </Checkbox>
+        </>
+    }
 
     const handleStarClick = async (num)=> {
         try{
@@ -28,6 +143,10 @@ const Shop = () => {
             })
             setPrice([0,0])
             setCategoryIds([])
+            setSubCategoryId('')
+            setSelectedBrand('')
+            setSelectedColor('')
+            setShipping('')
             setStars(num)
             await loadProductsByFilter({stars : num})
         }catch(err){
@@ -60,6 +179,33 @@ const Shop = () => {
         </div>)
     }
 
+    const showSubCategories = ()=> {
+        return subCategories.map((s) => <div key={s._id} onClick={()=>handleSubCategory(s)} className='p-1 m-1 badge badge-secondary' style={{cursor : 'pointer', fontWeight: 300}}>{s.name}</div>)
+    }
+
+    const resetSubCategory = ()=> {
+        setSubCategoryId('')
+    }
+
+    const handleSubCategory = async (s)=> {
+        try{
+            setSubCategoryId(s._id)
+            dispatch({type : 'SEARCH_QUERY',
+                payload : {text : ''}
+            })
+            setPrice([0,0])
+            setCategoryIds([])
+            setStars('')
+            setSelectedBrand('')
+            setSelectedColor('')
+            setShipping('')
+            await loadProductsByFilter({subCategory : s._id})
+        }catch(err){
+            console.log(err)
+        }
+    }
+
+
     const handleCheck = async (e)=> {
         try{
             dispatch({type : 'SEARCH_QUERY',
@@ -67,6 +213,10 @@ const Shop = () => {
             })
             setPrice([0,0])
             setStars('')
+            setSubCategoryId('')
+            setSelectedBrand('')
+            setSelectedColor('')
+            setShipping('')
             const categoryIdsInState = [...categoryIds]
             const currentCategory = e.target.value
             const currentCategoryIndex = categoryIdsInState.indexOf(currentCategory)
@@ -90,8 +240,12 @@ const Shop = () => {
             }
         })
         setCategoryIds([])
-        setPrice(value)
         setStars('')
+        setSubCategoryId('')
+        setSelectedBrand('')
+        setSelectedColor('')
+        setShipping('')
+        setPrice(value)
     }
 
     const showCategories = () => {
@@ -110,6 +264,9 @@ const Shop = () => {
             const categoryResult = await getCategories()
             console.log('Category result', categoryResult)
             setCategories(categoryResult.data)
+            const subCategoryResult = await getSubCategories()
+            console.log('Sub category result', subCategoryResult)
+            setSubCategories(subCategoryResult.data)
         }catch(err){
             console.log(err)
         }finally{
@@ -135,9 +292,13 @@ const Shop = () => {
 
     // 2. Load products based on user search input
     useEffect(()=> {
+        setSubCategoryId('')
+        setSelectedColor('')
+        setSelectedBrand('')
         setCategoryIds([])
         setPrice([0,0])
         setStars('')
+        setShipping('')
         const delayedApiCall = setTimeout(()=> {
             loadProductsByFilter({query : text})
         }, 400)
@@ -155,6 +316,7 @@ const Shop = () => {
         return () => clearTimeout(timer);
     }, [price])
 
+    // Keep Sidebar Updated with all contents
     useEffect(()=> {
         const items = [
             {
@@ -191,18 +353,76 @@ const Shop = () => {
                         label : showStars()
                     }
                 ]
+            },
+            {
+                key : '4',
+                label : 'Sub Category',
+                icon : <DownSquareOutlined/>,
+                className : 'custom-subcategory-item',
+                children : [
+                    {
+                        key : 'subcategory',
+                        label : <>{showSubCategories()} <Button onClick={resetSubCategory}>Reset</Button></>
+                    }
+                ]
+            },
+            {
+                key : '5',
+                label : 'Brand',
+                icon : <CheckCircleOutlined/>,
+                className : 'custom-brand-item',
+                children : [
+                    {
+                        key : 'brand',
+                        label : <>{showBrands()} <Button onClick={resetBrand} style={{width: '100px'}}>Reset</Button></>
+                    }
+                ]
+            },
+            {
+                key : '6',
+                label : 'Color',
+                icon : <BorderOuterOutlined/>,
+                className : 'custom-brand-item',
+                children : [
+                    {
+                        key : 'color',
+                        label : <>{showColors()} <Button onClick={resetColor} style={{width: '100px'}}>Reset</Button></>
+                    }
+                ]
+            },
+            {
+                key : '7',
+                label : 'Shipping',
+                icon : <BorderInnerOutlined/>,
+                className: 'custom-shipping-menu',
+                children : [
+                    {
+                        key : 'shipping',
+                        label : showShipping()
+                    }
+                ]
             }
         ]
         setMenuItems(items)
-    }, [categories, price, categoryIds])
+    }, [categories, price, categoryIds, subCategories, selectedBrand, selectedColor, shipping])
 
+    useEffect(()=> {
+        handleEmptyFilter()
+    }, [price, categoryIds, stars, text, subCategoryId, selectedBrand, selectedColor, shipping])
+
+    // Since its a checkbox, when yes is clicked 2 times shipping should be empty (shipping state depends on previous state)
+    useEffect(() => {
+        if (shipping !== "") {
+            loadProductsByFilter({shipping})
+        }
+    }, [shipping]);
     return (
         <div className="container-fluid">
             <div className='row'>
                 <div className="col-md-3 pt-2">
                     <h4>Search/Filter</h4>
                     <Menu mode='inline'
-                        defaultOpenKeys={['1','2','3']}
+                        defaultOpenKeys={['1','2','3','4','5','6','7']}
                         items={menuItems}
                         className='custom-menu'
                     />

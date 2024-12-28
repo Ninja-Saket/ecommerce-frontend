@@ -31,3 +31,44 @@
     padding-left: 22px !important;
     overflow-y: scroll;
 }
+
+.custom-subcategory-item .ant-menu-item {
+    font-size: 1.2rem;
+    text-wrap: wrap;
+    height: 200px;
+    padding-left: 22px !important;
+    overflow-y: scroll; 
+}
+
+.custom-subcategory-item .ant-menu-title-content {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll !important;
+}
+
+.custom-brand-item .ant-menu-item {
+    height: 200px;
+    padding-left: 22px !important;
+    overflow-y: scroll; 
+}
+
+.custom-brand-item .ant-menu-title-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll !important;
+}
+
+.custom-shipping-menu .ant-menu-item {
+    height: 80px;
+    padding-left: 22px !important;
+    overflow-y: scroll; 
+}
+
+.custom-shipping-menu .ant-checkbox-wrapper {
+    display: flex;
+    padding-top: 8px;
+}
