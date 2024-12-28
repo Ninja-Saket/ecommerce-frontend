@@ -10,3 +10,18 @@
 .custom-slider{
     margin: 12px !important;
 }
+
+.custom-menu-categories {
+    padding: 12px;
+}
+
+.custom-menu-categories .ant-checkbox-wrapper {
+    display: flex; /* This ensures the checkboxes are displayed one below the other */
+    margin-bottom: 8px; /* Add some space between checkboxes */
+}
+
+.custom-category-item .ant-menu-item{
+    height: 300px;
+    padding: 12px;
+    overflow-y: scroll;
+}
