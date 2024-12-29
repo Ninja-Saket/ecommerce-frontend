@@ -30,6 +30,7 @@ import CategoryHome from './pages/category/CategoryHome'
 import SubCategoryHome from './pages/subCategory/subCategoryHome'
 import Shop from './pages/Shop'
 import Cart from './pages/Cart'
+import SideDrawer from './components/drawer/SideDrawer'
 
 const App = ()=> {
   const [loading, setLoading] = useState(true);
@@ -89,6 +90,7 @@ const App = ()=> {
   return loading ? (<h4 className='text-danger'>Loading...</h4>) : (
     <Router>
       <Header />
+      <SideDrawer/>
       <ToastContainer/>
       <Routes>
         <Route path='/' element={<Home/>}/>
