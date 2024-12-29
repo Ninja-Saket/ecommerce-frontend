@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { App, Menu, Space } from "antd";
+import { App, Badge, Menu, Space } from "antd";
 import { Link , useNavigate} from "react-router-dom";
 import {
   AppstoreOutlined,
@@ -7,7 +7,8 @@ import {
   UserOutlined,
   UserAddOutlined,
   LogoutOutlined,
-  ShoppingOutlined
+  ShoppingOutlined,
+  ShoppingCartOutlined
 } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import Search from "../forms/Search";
@@ -18,6 +19,7 @@ const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const user = useSelector((state)=> state.user)
+  const cart = useSelector((state) => state.cart)
   const logout = () => {
     auth.signOut()
     dispatch({
@@ -65,6 +67,15 @@ const Header = () => {
       label :<Link to='/shop'>Shop</Link>,
       key : 'shop',
       icon : <ShoppingOutlined/>
+    },
+    {
+      label :<Link to='/cart'>
+        <Badge count={cart.length} offset={[9,0]}>
+          Cart
+        </Badge>
+      </Link>,
+      key : 'cart',
+      icon : <ShoppingCartOutlined/>
     }
   ];
 

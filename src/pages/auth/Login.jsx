@@ -23,7 +23,7 @@ const Login = ({}) => {
       : user.role === "admin"
       ? "/admin/dashboard"
       : "/user/history";
-    navigate(redirectTo)
+    navigate(redirectTo, {replace : true})
   };
 
   const user = useSelector((state) => state.user);

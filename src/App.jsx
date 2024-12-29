@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom"
 import {ToastContainer} from 'react-toastify'
 import {useDispatch} from 'react-redux'
+import _ from 'lodash'
 import {auth} from './firebase'
 import 'react-toastify/dist/ReactToastify.css'
 import Login from './pages/auth/Login'
@@ -28,10 +29,30 @@ import Product from './pages/Product'
 import CategoryHome from './pages/category/CategoryHome'
 import SubCategoryHome from './pages/subCategory/subCategoryHome'
 import Shop from './pages/Shop'
+import Cart from './pages/Cart'
 
 const App = ()=> {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch()
+
+  const syncCartToRedux = () => {
+      if (typeof window !== "undefined") {
+        if (!!localStorage.getItem("cart")) {
+          const cart = JSON.parse(localStorage.getItem("cart"));
+          const unique = _.uniqWith(cart, _.isEqual);
+          localStorage.setItem("cart", JSON.stringify(unique));
+          dispatch({
+            type: "ADD_TO_CART",
+            payload: unique,
+          });
+        }
+      }
+    };
+
+  // sync any cart from local storage to redux
+  useEffect(()=> {
+    syncCartToRedux()
+  }, [])
   // check firebase auth state
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -94,6 +115,7 @@ const App = ()=> {
         <Route path='/category/:slug' element={<CategoryHome/>}/>
         <Route path='/subCategory/:slug' element={<SubCategoryHome/>}/>
         <Route path='/shop' element={<Shop/>}/>
+        <Route path='/cart' element={<Cart/>}/>
       </Routes>
     </Router>
   )
