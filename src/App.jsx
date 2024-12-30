@@ -31,6 +31,7 @@ import SubCategoryHome from './pages/subCategory/subCategoryHome'
 import Shop from './pages/Shop'
 import Cart from './pages/Cart'
 import SideDrawer from './components/drawer/SideDrawer'
+import Checkout from './pages/Checkout'
 
 const App = ()=> {
   const [loading, setLoading] = useState(true);
@@ -102,6 +103,7 @@ const App = ()=> {
           <Route path='history' element={<History/>}/>
           <Route path='password' element={<Password/>}/>
           <Route path='wishlist' element={<Wishlist/>}/>
+          <Route path='checkout' element={<Checkout/>}/>
         </Route>
         <Route path='/admin/' element={<AdminRoute/>}>
           <Route path='dashboard' element={<AdminDashboard/>}/>

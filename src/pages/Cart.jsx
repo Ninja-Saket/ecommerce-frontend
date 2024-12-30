@@ -1,11 +1,13 @@
 import React, {useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ProductCardInCheckout from "../components/cards/ProductCardInCheckout";
+import { createUserCart } from "../apiCalls/user";
 
 const Cart = () => {
     const cart = useSelector((state) => state && state.cart ? state.cart : [])
-    const user = useSelector((state) => state && state.user ? state.user.token : null)
+    const userToken = useSelector((state) => state && state.user ? state.user.token : null)
+    const navigate = useNavigate()
 
     const getTotal = () => {
         return cart.reduce((prevTotal, currentCartItem) => {
@@ -13,8 +15,10 @@ const Cart = () => {
         }, 0)
     }
 
-    const saveOrderToDb = ()=> {
-        
+    const saveOrderToDb = async ()=> {
+        console.log('Cart -->', JSON.stringify(cart, null, 4))
+        const result = await createUserCart(cart,userToken )
+        navigate('/user/checkout')
     }
 
     const showCartItems = () => {
@@ -56,7 +60,7 @@ const Cart = () => {
                 <span>Total : <b>${getTotal()}</b></span>
                 <hr/>
                 {
-                    user ? (<button onClick={saveOrderToDb} disabled={!cart.length} className="btn btn-md btn-info mt-2">Proceed to Checkout</button>) : (<Link to="/login" state={{from : "/cart"}}><button className="btn btn-md btn-info mt-2">Login to checkout</button></Link>)
+                    userToken ? (<button onClick={saveOrderToDb} disabled={!cart.length} className="btn btn-md btn-info mt-2">Proceed to Checkout</button>) : (<Link to="/login" state={{from : "/cart"}}><button className="btn btn-md btn-info mt-2">Login to checkout</button></Link>)
                 }
             </div>
         </div>
