@@ -20,9 +20,7 @@ const Login = ({}) => {
   const roleBasedRedirect = (user) => {
     const redirectTo = location.state
       ? location.state.from
-      : user.role === "admin"
-      ? "/admin/dashboard"
-      : "/user/history";
+      : "/";
     navigate(redirectTo, {replace : true})
   };
 

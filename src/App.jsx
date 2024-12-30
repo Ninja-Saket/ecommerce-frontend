@@ -32,6 +32,7 @@ import Shop from './pages/Shop'
 import Cart from './pages/Cart'
 import SideDrawer from './components/drawer/SideDrawer'
 import Checkout from './pages/Checkout'
+import CreateCoupon from './pages/admin/coupon/CreateCoupon'
 
 const App = ()=> {
   const [loading, setLoading] = useState(true);
@@ -114,6 +115,7 @@ const App = ()=> {
           <Route path='product' element={<CreateProduct/>}/>
           <Route path='products' element={<AllProducts/>}/>
           <Route path='product/:slug' element={<UpdateProduct/>}/>
+          <Route path='coupon' element={<CreateCoupon/>}/>
         </Route>
         <Route path='/product/:slug' element={<Product/>}/>
         <Route path='/category/:slug' element={<CategoryHome/>}/>

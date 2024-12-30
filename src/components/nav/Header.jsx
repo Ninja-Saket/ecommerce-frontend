@@ -26,6 +26,13 @@ const Header = () => {
         type: 'LOGOUT',
         payload : null
     })
+    dispatch({
+      type : 'ADD_TO_CART',
+      payload: []
+    })
+    if(typeof window != 'undefined'){
+      localStorage.removeItem('cart')
+    }
     navigate('/')
   }
   const itemsLeftBeforeLogin = [
@@ -33,28 +40,7 @@ const Header = () => {
       label: <Link to="/">Home</Link>,
       key: "home",
       icon: <AppstoreOutlined />,
-    },
-    {
-      label: 'Username',
-      key: "username",
-      icon: <SettingOutlined />,
-      children: [
-        {
-          label: "Option 1",
-          key: "option1",
-        },
-        {
-          label: "Option 2",
-          key: "option2",
-        },
-        {
-          label: "Logout",
-          key: "logout",
-          icon: <LogoutOutlined />,
-          onClick: logout,
-        },
-      ],
-    },
+    }
   ];
 
   const itemsLeftAfterLogin = [
