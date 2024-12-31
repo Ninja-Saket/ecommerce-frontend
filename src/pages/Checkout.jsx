@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { emptyUserCart, getUserCart, saveUserAddress } from "../apiCalls/user";
+import { emptyUserCart, getUserCart, saveUserAddress, applyCoupon } from "../apiCalls/user";
 import { toast } from "react-toastify";
 
 import JoditEditor from 'jodit-react'
@@ -10,6 +10,9 @@ const Checkout = () => {
   const [cartTotal, setCartTotal] = useState(0);
   const [address, setAddress] = useState("");
   const [addressSaved, setAddressSaved] = useState(false)
+  const [coupon, setCoupon] = useState('')
+  const [totalAfterDiscount, setTotalAfterDiscount] = useState(0)
+  const [discountError, setDiscountError] = useState('')
   const editor = useRef(null)
   const dispatch = useDispatch();
 
@@ -17,12 +20,15 @@ const Checkout = () => {
     state && state.user ? state.user.token : null
   );
 
+  const couponApplied = useSelector((state) => state && state.coupon ? state.coupon : false)
+
   const loadCartInfo = async () => {
     try {
       const result = await getUserCart(userToken);
       setProducts(result.data.products);
       setCartTotal(result.data.cartTotal);
     } catch (err) {
+      toast.error('Error loading cart')
       console.log(err);
     }
   };
@@ -42,6 +48,10 @@ const Checkout = () => {
       const result = await emptyUserCart(userToken);
       setProducts([]);
       setCartTotal(0);
+      setTotalAfterDiscount(0)
+      setCoupon("")
+      setDiscountError("")
+      setAddress("")
       toast.success("Cart is empty. Continue Shopping!");
     } catch (err) {
       console.log(err);
@@ -60,6 +70,57 @@ const Checkout = () => {
     }
   }
 
+  const showAddress = ()=> {
+    return <><JoditEditor ref={editor} value={address} onChange={setAddress}/>
+    <button className="btn btn-info mt-3" onClick={saveAddressToDb}>
+      Save
+    </button></>
+  }
+
+  const showProductSummary = ()=> {
+    return products.map((p, i) => (
+      <div key={i}>
+        <p>
+          {p.product.title} ({p.color}) x {p.count} ={" "}
+          {p.product.price * p.count}
+        </p>
+      </div>
+    ))
+  }
+
+  const applyDiscountCoupon = async ()=> {
+    try{
+      const result = await applyCoupon(coupon, userToken)
+      setTotalAfterDiscount(result.data)
+      dispatch({
+        type : 'COUPON_APPLIED',
+        payload : true
+      })
+    }catch(err){
+      setDiscountError(err.response.data.err)
+      dispatch({
+        type : 'COUPON_APPLIED',
+        payload : false
+      })
+    }
+  }
+
+  const handleCouponInputChange = (e)=> {
+    setCoupon(e.target.value)
+    if(discountError){
+      setDiscountError('')
+    }
+  }
+
+  const showApplyCoupon = () => {
+   return  <>
+      <input className="form-control" type="text" value={coupon} onChange={handleCouponInputChange}  />
+      <button className="btn btn-info mt-3" onClick={applyDiscountCoupon}>
+        Apply
+      </button>
+    </>
+  }
+
   useEffect(() => {
     loadCartInfo();
   }, []);
@@ -69,32 +130,24 @@ const Checkout = () => {
       <div className="row">
         <div className="col-md-6">
           <h4>Delivery Address</h4>
-          <JoditEditor ref={editor} value={address} onChange={setAddress}/>
-          <button className="btn btn-info mt-3" onClick={saveAddressToDb}>
-            Save
-          </button>
+          {showAddress()}
           <hr />
-          <h4>Got Coupon?</h4>
-          <br />
-          coupon input and apply button
+          <h4 style={{marginTop : '35px'}}>Got Coupon?</h4>
+          {showApplyCoupon()}
+          <br/>
+          {discountError && <p className="bg-danger mt-2 p-2">{discountError}</p>}
         </div>
         <div className="col-md-6">
           <h4>Order Summary</h4>
           <hr />
           <p>Products {products.length}</p>
           <hr />
-          {products.map((p, i) => (
-            <div key={i}>
-              <p>
-                {p.product.title} ({p.color}) x {p.count} ={" "}
-                {p.product.price * p.count}
-              </p>
-            </div>
-          ))}
+          {showProductSummary()}
           <hr />
           <p>
             Cart Total : <b>${cartTotal}</b>
           </p>
+          {totalAfterDiscount > 0 && (<p className="bg-success p-2">Discount Applied: Total Payable: ${totalAfterDiscount}</p>)}
 
           <div className="row">
             <div className="col-md-6">
