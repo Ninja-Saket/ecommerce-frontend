@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { emptyUserCart, getUserCart, saveUserAddress, applyCoupon } from "../apiCalls/user";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 import JoditEditor from 'jodit-react'
 
@@ -15,6 +16,7 @@ const Checkout = () => {
   const [discountError, setDiscountError] = useState('')
   const editor = useRef(null)
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const userToken = useSelector((state) =>
     state && state.user ? state.user.token : null
@@ -151,7 +153,7 @@ const Checkout = () => {
 
           <div className="row">
             <div className="col-md-6">
-              <button className="btn btn-info" disabled={!addressSaved}>Place Order</button>
+              <button className="btn btn-info" disabled={!addressSaved} onClick={()=> navigate('/user/payment')}>Place Order</button>
             </div>
             <div className="col-md-6">
               <button

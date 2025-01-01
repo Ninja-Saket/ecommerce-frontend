@@ -33,6 +33,8 @@ import Cart from './pages/Cart'
 import SideDrawer from './components/drawer/SideDrawer'
 import Checkout from './pages/Checkout'
 import CreateCoupon from './pages/admin/coupon/CreateCoupon'
+import Payment from './pages/Payment'
+import PaymentSuccess from './pages/PaymentSuccess'
 
 const App = ()=> {
   const [loading, setLoading] = useState(true);
@@ -105,6 +107,8 @@ const App = ()=> {
           <Route path='password' element={<Password/>}/>
           <Route path='wishlist' element={<Wishlist/>}/>
           <Route path='checkout' element={<Checkout/>}/>
+          <Route path='payment' element={<Payment/>}/>
+          <Route path='paymentsuccess' element={<PaymentSuccess/>}/>
         </Route>
         <Route path='/admin/' element={<AdminRoute/>}>
           <Route path='dashboard' element={<AdminDashboard/>}/>
