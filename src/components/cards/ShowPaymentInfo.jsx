@@ -6,7 +6,7 @@ const ShowPaymentInfo = ({order})=> {
             <span>
                 Order Id : {order.paymentData.order_id}
             </span>{" / "}
-            <span>Amount : {(order.paymentData.amount /= 100).toLocaleString("en-IN", {
+            <span>Amount : {(order.paymentData.amount / 100).toLocaleString("en-IN", {
                 style : "currency",
                 currency : 'INR'
             })}</span>{" / "}

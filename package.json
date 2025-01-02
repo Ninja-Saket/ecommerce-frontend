@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ag-media/react-pdf-table": "^2.0.0",
+    "@react-pdf/renderer": "^4.1.6",
     "@redux-devtools/extension": "^3.3.0",
     "antd": "^5.21.6",
     "axios": "^1.7.8",
