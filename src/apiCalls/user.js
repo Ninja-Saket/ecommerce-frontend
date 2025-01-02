@@ -84,4 +84,18 @@ const applyCoupon = async (coupon, authToken)=>{
   return result;
 }
 
-export { createUserCart, getUserCart, emptyUserCart, saveUserAddress, applyCoupon };
+const createOrder = async (paymentData, authToken)=>{
+  const result = await axios.post(
+    `${import.meta.env.VITE_APP_API}/user/order`,
+      {paymentData},
+    {
+      headers: {
+        authToken,
+      },
+    }
+  );
+  return result;
+}
+
+
+export { createUserCart, getUserCart, emptyUserCart, saveUserAddress, applyCoupon, createOrder };

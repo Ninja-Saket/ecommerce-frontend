@@ -40,6 +40,15 @@ const Header = () => {
       label: <Link to="/">Home</Link>,
       key: "home",
       icon: <AppstoreOutlined />,
+    },
+    {
+      label :<Link to='/cart'>
+        <Badge count={cart.length} offset={[9,0]}>
+          Cart
+        </Badge>
+      </Link>,
+      key : 'cart',
+      icon : <ShoppingCartOutlined/>
     }
   ];
 

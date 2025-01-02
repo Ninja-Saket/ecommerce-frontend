@@ -30,9 +30,9 @@ const ProductCard = ({ product }) => {
       });
       // show cart items in side drawer
       dispatch({
-        type : 'SET_VISIBLE',
-        payload: true
-      })
+        type: "SET_VISIBLE",
+        payload: true,
+      });
     }
   };
 
@@ -51,10 +51,20 @@ const ProductCard = ({ product }) => {
           <Link to={`/product/${slug}`}>
             <EyeOutlined className="text-warning" /> <br /> View Product
           </Link>,
-          <Tooltip title={tooltip}>
-            <a onClick={handleAddToCart}>
-              <ShoppingCartOutlined className="text-danger" /> <br /> Add to
-              Cart
+          <Tooltip title={product.quantity < 1 ? "Out of Stock" : tooltip}>
+            <a
+              onClick={
+                product.quantity < 1
+                  ? (e) => e.preventDefault()
+                  : handleAddToCart
+              } // Prevent click action if out of stock
+              style={{
+                cursor: product.quantity < 1 ? "not-allowed" : "pointer", // Change cursor to not-allowed if out of stock
+                color: product.quantity < 1 ? "gray" : "inherit"
+              }}
+            >
+              <ShoppingCartOutlined className="text-danger" /> <br />
+              {product.quantity < 1 ? "Out of Stock" : "Add to Cart"}
             </a>
           </Tooltip>,
         ]}
