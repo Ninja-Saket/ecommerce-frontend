@@ -11,4 +11,15 @@ const createRazorpayOrder = async(authToken, coupon)=> {
     return result
 }
 
-export {createRazorpayOrder}
+const getPaymentDetails = async (razorpay_payment_id, authToken)=> {
+    const result = await axios.post(
+        `${import.meta.env.VITE_APP_API}/payment-details`, {razorpay_payment_id}, {
+            headers : {
+                authToken
+            }
+        }
+    );
+    return result
+}
+
+export {createRazorpayOrder, getPaymentDetails}

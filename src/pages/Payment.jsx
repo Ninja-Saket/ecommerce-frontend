@@ -1,5 +1,5 @@
 import React, {useEffect} from "react"
-import { createRazorpayOrder } from "../apiCalls/payment"
+import { createRazorpayOrder, getPaymentDetails } from "../apiCalls/payment"
 import { useSelector, useDispatch } from "react-redux"
 import { createOrder, emptyUserCart } from "../apiCalls/user"
 import { useNavigate } from "react-router-dom"
@@ -26,6 +26,7 @@ const Payment = ()=> {
                 "image": "https://avatars.githubusercontent.com/u/69805419?v=4",
                 "order_id": order.id,
                 "handler": async function (response) {
+                    console.log('Payment REsponse ->', response)
                     const payload = {
                         razorpay_order_id: response.razorpay_order_id,
                         razorpay_payment_id: response.razorpay_payment_id,
@@ -39,7 +40,9 @@ const Payment = ()=> {
                         });
                         console.log("Payment verification result:", result.data);
                         if(result.data.success){
-                            const orderResult = await createOrder(payload, userToken)
+                            const paymentData = await getPaymentDetails(payload.razorpay_payment_id, userToken)
+                            console.log('Payment Details --->', paymentData)
+                            const orderResult = await createOrder(paymentData.data, userToken)
                             console.log('orderResult ---> ', orderResult)
                             if(orderResult.data.ok){
                                 // Remove cart from localstorage
