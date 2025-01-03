@@ -1,6 +1,6 @@
 import React, {useState } from "react";
 import { Card, Tabs, Tooltip } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
@@ -11,6 +11,8 @@ import RatingModal from "../modal/RatingModal";
 import AverageRating from "../../pages/AverageRating";
 import { useSelector, useDispatch } from "react-redux";
 import _ from "lodash";
+import { addToWishlist } from "../../apiCalls/user";
+import { toast } from "react-toastify";
 const { Meta } = Card;
 const { TabPane } = Tabs;
 
@@ -18,6 +20,8 @@ const SingleProduct = ({ product, onStarClick, star }) => {
   const { _id, title, images, description } = product;
   const [tooltip, setTooltip] = useState("Click to add");
   const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const userToken = useSelector((state) => state && state.user ? state.user.token : null)
 
   const handleAddToCart = () => {
     let cart = [];
@@ -43,6 +47,18 @@ const SingleProduct = ({ product, onStarClick, star }) => {
       })
     }
   };
+
+  const handleAddToWishlist = async (e)=> {
+    try{
+      e.preventDefault()
+      const result = await addToWishlist(product._id, userToken)
+      toast.success('Added to wishlsit!')
+      console.log('Added to wishlist')
+      navigate("/user/wishlist")
+    }catch(err){
+      console.log(err)
+    }
+  }
 
   return (
     <>
@@ -77,9 +93,9 @@ const SingleProduct = ({ product, onStarClick, star }) => {
                 Cart
               </a>
             </Tooltip>,
-            <Link to="/">
+            <a onClick={handleAddToWishlist}>
               <HeartOutlined classID="text-info" /> <br /> Add to wishlist
-            </Link>,
+            </a>,
             <RatingModal>
               <StarRating
                 name={_id}

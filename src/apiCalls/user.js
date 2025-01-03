@@ -90,6 +90,45 @@ const getUserOrders = async (authToken) => {
   return result;
 };
 
+const getWishlist = async (authToken) => {
+  const result = await axios.get(
+    `${import.meta.env.VITE_APP_API}/user/wishlist`,
+    {
+      headers: {
+        authToken,
+      },
+    }
+  );
+  return result;
+};
+
+const removeWishlist = async (productId, authToken) => {
+  const result = await axios.put(
+    `${import.meta.env.VITE_APP_API}/user/wishlist/${productId}`,{},
+    {
+      headers: {
+        authToken,
+      },
+    }
+  );
+  return result;
+};
+
+const addToWishlist = async (productId, authToken) => {
+  const result = await axios.post(
+    `${import.meta.env.VITE_APP_API}/user/wishlist`,
+    {
+      productId
+    },
+    {
+      headers: {
+        authToken,
+      },
+    }
+  );
+  return result;
+};
+
 export {
   createUserCart,
   getUserCart,
@@ -98,4 +137,7 @@ export {
   applyCoupon,
   createOrder,
   getUserOrders,
+  getWishlist,
+  removeWishlist,
+  addToWishlist
 };
