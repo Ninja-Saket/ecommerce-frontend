@@ -129,6 +129,19 @@ const addToWishlist = async (productId, authToken) => {
   return result;
 };
 
+const createCodOrder = async (cod, coupon, authToken) => {
+  const result = await axios.post(
+    `${import.meta.env.VITE_APP_API}/user/cod-order`,
+    { cod, coupon },
+    {
+      headers: {
+        authToken,
+      },
+    }
+  );
+  return result;
+};
+
 export {
   createUserCart,
   getUserCart,
@@ -139,5 +152,6 @@ export {
   getUserOrders,
   getWishlist,
   removeWishlist,
-  addToWishlist
+  addToWishlist,
+  createCodOrder
 };

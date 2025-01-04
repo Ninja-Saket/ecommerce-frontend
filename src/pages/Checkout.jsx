@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { emptyUserCart, getUserCart, saveUserAddress, applyCoupon } from "../apiCalls/user";
+import { emptyUserCart, getUserCart, saveUserAddress, applyCoupon, createCodOrder } from "../apiCalls/user";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -23,6 +23,7 @@ const Checkout = () => {
   );
 
   const couponApplied = useSelector((state) => state && state.coupon ? state.coupon : false)
+  const cod = useSelector((state) => state && state.cod ? state.cod : false)
 
   const loadCartInfo = async () => {
     try {
@@ -123,6 +124,44 @@ const Checkout = () => {
     </>
   }
 
+  const handleCodOrder = async ()=> {
+    try{
+      const result = await createCodOrder(cod,couponApplied, userToken)
+      if(result.data.ok){
+        // Empty local storage
+        if(typeof window != 'undefined'){
+          localStorage.removeItem('cart')
+        }
+
+        // Empty cart
+        dispatch({
+          type : "ADD_TO_CART",
+          payload : []
+        })
+
+        // Remove coupon from redux
+        dispatch({
+          type : 'COUPON_APPLIED',
+          payload : false
+        })
+
+        // Remove cod from redux
+        dispatch({
+          type : "COD",
+          payload : false
+        })
+
+        // Empty cart from backend
+        await emptyUserCart(userToken)
+        setTimeout(()=> {
+          navigate('/user/history')
+        }, 1000)
+      }
+    }catch(err){
+      console.log(err)
+    }
+  }
+
   useEffect(() => {
     loadCartInfo();
   }, []);
@@ -153,7 +192,7 @@ const Checkout = () => {
 
           <div className="row">
             <div className="col-md-6">
-              <button className="btn btn-info" disabled={!addressSaved} onClick={()=> navigate('/user/payment')}>Place Order</button>
+              {cod ? (<button className="btn btn-info" disabled={!addressSaved} onClick={handleCodOrder}>Place Order</button>) : (<button className="btn btn-info" disabled={!addressSaved} onClick={()=> navigate('/user/payment')}>Place Order</button>)}
             </div>
             <div className="col-md-6">
               <button

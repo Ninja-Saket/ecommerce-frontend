@@ -8,6 +8,7 @@ const Cart = () => {
     const cart = useSelector((state) => state && state.cart ? state.cart : [])
     const userToken = useSelector((state) => state && state.user ? state.user.token : null)
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const getTotal = () => {
         return cart.reduce((prevTotal, currentCartItem) => {
@@ -16,8 +17,16 @@ const Cart = () => {
     }
 
     const saveOrderToDb = async ()=> {
-        console.log('Cart -->', JSON.stringify(cart, null, 4))
         const result = await createUserCart(cart,userToken )
+        navigate('/user/checkout')
+    }
+
+    const saveCodOrderToDb = async ()=> {
+        const result = await createUserCart(cart,userToken )
+        dispatch({
+            type : 'COD',
+            payload : true
+        })
         navigate('/user/checkout')
     }
 
@@ -60,7 +69,8 @@ const Cart = () => {
                 <span>Total : <b>${getTotal()}</b></span>
                 <hr/>
                 {
-                    userToken ? (<button onClick={saveOrderToDb} disabled={!cart.length} className="btn btn-md btn-info mt-2">Proceed to Checkout</button>) : (<Link to="/login" state={{from : "/cart"}}><button className="btn btn-md btn-info mt-2">Login to checkout</button></Link>)
+                    userToken ? (<><button onClick={saveOrderToDb} disabled={!cart.length} className="btn btn-md btn-info mt-2">Proceed to Checkout</button> <br/>
+                    <button onClick={saveCodOrderToDb} disabled={!cart.length} className="btn btn-md btn-info mt-2">Pay cash on delivery</button></>) : (<Link to="/login" state={{from : "/cart"}}><button className="btn btn-md btn-info mt-2">Login to checkout</button></Link>)
                 }
             </div>
         </div>

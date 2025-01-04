@@ -10,7 +10,7 @@ const OrderTable = ({ order }) => {
               Title
             </th>
             <th scope="col" className="custom-tablehead">
-              Price
+              Price/Item (No Disc)
             </th>
             <th scope="col" className="custom-tablehead">
               Brand
