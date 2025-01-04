@@ -19,7 +19,7 @@ const LoadingToRedirect = () => {
     },[count])
 
     return (
-        <div className="container p-5 text-center">
+        <div className="container p-5 text-center text-info">
             <p>Redirecting to Login in {count} seconds</p>
         </div>
     )

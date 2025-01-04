@@ -18,7 +18,7 @@ const Payment = ()=> {
             console.log('Result --> ', result)
             console.log('Order in frontend -->', order)
             const options = {
-                "key": "rzp_test_HCS7SNb8LjqcCo", 
+                "key": import.meta.env.VITE_APP_RAZORPAY_API_KEY, 
                 "amount": order.amount*100,
                 "currency": "INR",
                 "name": "SAKET KUMAR RAY", 
