@@ -138,13 +138,17 @@ const Header = () => {
             items={itemsLeftAfterLogin}
           />
         </div>)}
-        {!user && (<div className="col-6 d-flex justify-content-end">
+        {!user && (<div className="col-6">
           <Menu
             onClick={onClick}
             selectedKeys={[current]}
             mode="horizontal"
             key="navmenuright"
             items={itemsRightBeforeLogin}
+            style={{
+              display: "flex",
+              flexDirection: "row-reverse",
+            }}
           />
         </div>)}
         {user && (<div className="col-6">
