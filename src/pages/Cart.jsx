@@ -70,8 +70,8 @@ const Cart = () => {
                 <span>Total : <b>${getTotal()}</b></span>
                 <hr/>
                 {
-                    userToken ? (<><button onClick={saveOrderToDb} disabled={!cart.length} className="btn btn-md btn-info mt-2">Proceed to Checkout</button> <br/>
-                    <button onClick={saveCodOrderToDb} disabled={!cart.length} className="btn btn-md btn-info mt-2">Pay cash on delivery</button></>) : (<Link to="/login" state={{from : "/cart"}}><button className="btn btn-md btn-info mt-2">Login to checkout</button></Link>)
+                    userToken ? (<><button onClick={saveOrderToDb} disabled={!cart.length} className="btn btn-block btn-info mt-3 p-3">Proceed to Checkout</button>
+                    <button onClick={saveCodOrderToDb} disabled={!cart.length} className="btn btn-block btn-info mt-3 p-3">Pay cash on delivery</button></>) : (<Link to="/login" state={{from : "/cart"}}><button className="btn btn-md btn-info mt-2">Login to checkout</button></Link>)
                 }
             </div>
         </div>
