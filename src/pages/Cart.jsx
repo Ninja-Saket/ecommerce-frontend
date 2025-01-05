@@ -52,6 +52,7 @@ const Cart = () => {
         <div className="row">
             <div className="col-md-8">
                 <h4>Cart / {cart.length} Product</h4>
+                <p style={{fontStyle : "italic", fontWeight : "bold",  color : "red", margin:"10px 0"}}>**All products listed here are for demo purpose only. Please do not place order for them.**</p>
                 {!cart.length ? (<p>No products in cart. <Link to='/shop'>Continue Shopping.</Link></p>) : (showCartItems())}
             </div>
             <div className="col-md-4">

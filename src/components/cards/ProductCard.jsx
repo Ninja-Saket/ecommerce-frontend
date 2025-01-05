@@ -69,7 +69,7 @@ const ProductCard = ({ product }) => {
           </Tooltip>,
         ]}
       >
-        <Meta title={`${title} - $${price}`} description={description} />
+        <Meta title={`${title} - Rs. ${price}`} description={description} style={{textAlign:"center"}}/>
       </Card>
     </>
   );

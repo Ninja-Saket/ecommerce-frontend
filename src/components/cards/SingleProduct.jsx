@@ -78,7 +78,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
             {description && description}
           </TabPane>
           <TabPane tab="More" key="2">
-            Call us on xyz xyz xyzx to learn more about this product.
+            This is a demo product. Please do not place order for it. Call us on +91 7061764577 for more details.
           </TabPane>
         </Tabs>
       </div>
