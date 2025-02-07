@@ -21,7 +21,7 @@ const AdminProductCard = ({ product, handleRemove }) => {
         <Link to={`/admin/product/${slug}`}><EditOutlined className="text-warning"/></Link>, <DeleteOutlined className="text-danger" onClick={()=> handleRemove(slug)}/>
       ]}
     >
-      <Meta title={`${title} - $${price}`} description={description} />
+      <Meta title={`${title} - Rs. ${price}`} description={description} />
     </Card>
   );
 };

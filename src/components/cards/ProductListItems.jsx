@@ -9,7 +9,7 @@ const ProductListItems = ({ product }) => {
         className="list-group-item d-flex justify-content-between"
         style={{ border: "none" }}
       >
-        <span>Price</span> <span>${price}</span>
+        <span>Price</span> <span>Rs. {price}</span>
       </li>
       {category && (
         <li

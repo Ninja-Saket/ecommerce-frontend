@@ -326,7 +326,7 @@ const Shop = () => {
                 children : [
                     {
                         key : 'priceRange',
-                        label : <Slider className='custom-slider' tooltip={{formatter : (value) => `$${value}`}} value={price} onChange={handleSlider} max="6999" range/>
+                        label : <Slider className='custom-slider' tooltip={{formatter : (value) => `Rs. ${value}`}} value={price} onChange={handleSlider} max="6999" range/>
                     }
                 ]
             },
