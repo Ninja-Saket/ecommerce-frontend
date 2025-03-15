@@ -85,7 +85,7 @@ const Checkout = () => {
       <div key={i}>
         <p>
           {p.product.title} ({p.color}) x {p.count} ={" "}
-          {p.product.price * p.count}
+          Rs. {p.product.price * p.count}
         </p>
       </div>
     ))
@@ -186,7 +186,7 @@ const Checkout = () => {
           {showProductSummary()}
           <hr />
           <p>
-            Cart Total : <b>${cartTotal}</b>
+            Cart Total : <b>Rs. {cartTotal}</b>
           </p>
           {totalAfterDiscount > 0 && (<p className="bg-success p-2">Discount Applied: Total Payable: ${totalAfterDiscount}</p>)}
 

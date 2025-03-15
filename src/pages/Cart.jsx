@@ -62,12 +62,12 @@ const Cart = () => {
                 {cart.map((c,i)=> (
                     <div key={i}>
                         <p>
-                            {c.title} X {c.count} = ${c.price * c.count}
+                            {c.title} X {c.count} = Rs. {c.price * c.count}
                         </p>
                     </div>
                 ))}
                 <hr/>
-                <span>Total : <b>${getTotal()}</b></span>
+                <span>Total : <b>Rs. {getTotal()}</b></span>
                 <hr/>
                 {
                     userToken ? (<><button onClick={saveOrderToDb} disabled={!cart.length} className="btn btn-block btn-info mt-3 p-3">Proceed to Checkout</button>
