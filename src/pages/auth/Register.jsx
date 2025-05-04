@@ -20,7 +20,7 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         const config = {
-            url : import.meta.env.VITE_REGISTER_REDIRECT_URL,
+            url : `${import.meta.env.VITE_REGISTER_REDIRECT_URL}?email=${email}`,
             handleCodeInApp : true
         }
         console.log(config)

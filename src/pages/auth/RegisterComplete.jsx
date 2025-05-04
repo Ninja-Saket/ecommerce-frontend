@@ -19,6 +19,20 @@ const RegisterComplete = () => {
         setEmail(window.localStorage.getItem("emailForRegistration"))
     }, [])
 
+    useEffect(() => {
+        const queryParams = new URLSearchParams(window.location.search);
+        const emailFromQuery = queryParams.get("email");
+        if (emailFromQuery) {
+            setEmail(emailFromQuery);
+        } else {
+            // fallback to localStorage if query param not present
+            const storedEmail = window.localStorage.getItem("emailForRegistration");
+            if (storedEmail) {
+                setEmail(storedEmail);
+            }
+        }
+    }, []);
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         if(!email || !password){
@@ -61,7 +75,7 @@ const RegisterComplete = () => {
     }
     const completeRegistrationForm = () => (
         <form onSubmit={handleSubmit}>
-            <input type='email' className='form-control' value={userEmail}/>
+            <input type='email' className='form-control' value={email} disabled/>
             <input type='password' className='form-control' value={password} onChange={e => setPassword(e.target.value)} placeholder='Password'/>
             <button type='submit' className='btn my-2'>Complete Registration</button>
             <br/>
