@@ -13,6 +13,7 @@ const RegisterComplete = () => {
     const dispatch = useDispatch()
 
     const user = useSelector((state) => state.user)
+    const userEmail = useSelector((state) => state.emailData)
 
     useEffect(()=> {
         setEmail(window.localStorage.getItem("emailForRegistration"))
@@ -60,7 +61,7 @@ const RegisterComplete = () => {
     }
     const completeRegistrationForm = () => (
         <form onSubmit={handleSubmit}>
-            <input type='email' className='form-control' value={email} disabled/>
+            <input type='email' className='form-control' value={userEmail}/>
             <input type='password' className='form-control' value={password} onChange={e => setPassword(e.target.value)} placeholder='Password'/>
             <button type='submit' className='btn my-2'>Complete Registration</button>
             <br/>

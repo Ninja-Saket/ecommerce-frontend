@@ -4,9 +4,11 @@ import {toast} from 'react-toastify'
 import {auth} from '../../firebase'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
 const Register = () => {
     const [email, setEmail] = useState("")
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const user = useSelector((state)=> state.user)
 
@@ -26,6 +28,11 @@ const Register = () => {
         toast.success(`Email is sent to ${email}. Click the link to complete your registration.`)
         // Save user email in localStorage
         window.localStorage.setItem('emailForRegistration', email)
+        // Store email in redux
+        dispatch({
+            type : 'EMAIL',
+            payload : email
+        })
         // Clear the state
         setEmail('')
     }
