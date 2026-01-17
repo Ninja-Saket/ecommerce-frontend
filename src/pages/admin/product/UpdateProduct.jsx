@@ -20,6 +20,7 @@ const initialState = {
   brands: ["Apple", "Samsung", "Microsoft", "Lenovo", "Asus", "Dell"],
   color: "",
   brand: "",
+  keySpecifications: {},
 }
 
 const UpdateProduct = ()=> {

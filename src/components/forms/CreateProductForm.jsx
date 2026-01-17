@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Select } from "antd";
 const { Option } = Select;
 
@@ -25,7 +25,32 @@ const CreateProductForm = ({
     brands,
     color,
     brand,
+    keySpecifications,
   } = values;
+
+  const [specsInput, setSpecsInput] = useState("");
+  const [isValidJson, setIsValidJson] = useState(true);
+
+  const handleSpecificationsChange = (e) => {
+    const input = e.target.value;
+    setSpecsInput(input);
+    
+    if (!input.trim()) {
+      setIsValidJson(true);
+      setValues({ ...values, keySpecifications: {} });
+      return;
+    }
+    
+    try {
+      // Parse the JSON input
+      const parsed = JSON.parse(`{${input}}`);
+      setValues({ ...values, keySpecifications: parsed });
+      setIsValidJson(true);
+    } catch (err) {
+      // Invalid JSON - show error but don't update keySpecifications
+      setIsValidJson(false);
+    }
+  };
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-group mt-2">
@@ -139,6 +164,28 @@ const CreateProductForm = ({
           </Select>
         </div>
       )}
+      
+      <div className="form-group mt-3">
+        <label>
+          Key Specifications (JSON format)
+          {specsInput && (
+            <span className={`ms-2 ${isValidJson ? 'text-success' : 'text-danger'}`}>
+              {isValidJson ? '✓ Valid' : '✗ Invalid JSON'}
+            </span>
+          )}
+        </label>
+        <small className="text-muted d-block mb-1">
+          Enter as: "key": "value", "key2": "value2"
+        </small>
+        <textarea
+          className={`form-control ${specsInput && !isValidJson ? 'border-danger' : ''}`}
+          rows="4"
+          placeholder='"RAM": "16GB", "Storage": "512GB SSD", "Processor": "Intel i7"'
+          value={specsInput}
+          onChange={handleSpecificationsChange}
+        />
+      </div>
+      
       <button className="btn btn-outline-info mt-3">Save</button>
     </form>
   );

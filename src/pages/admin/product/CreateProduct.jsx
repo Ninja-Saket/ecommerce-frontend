@@ -24,6 +24,7 @@ const initialState = {
   brands: ["Apple", "Samsung", "Microsoft", "Lenovo", "Asus","Dell"],
   color: "",
   brand: "",
+  keySpecifications: {},
 };
 
 const CreateProduct = () => {
@@ -49,7 +50,7 @@ const CreateProduct = () => {
       const result = await createProduct(values, userToken);
       setLoading(false);
       toast.success(`Product "${values.title}" created successfully`);
-      setValues({...initialState, images: []});
+      setValues({...initialState, images: [], keySpecifications: {}});
       setShowSubCategories(false);
     } catch (err) {
       setLoading(false);
