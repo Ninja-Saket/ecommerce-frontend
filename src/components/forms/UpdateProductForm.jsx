@@ -37,7 +37,13 @@ const UpdateProductForm = ({
   useEffect(() => {
     if (keySpecifications && Object.keys(keySpecifications).length > 0) {
       const formatted = Object.entries(keySpecifications)
-        .map(([key, value]) => `"${key}": "${value}"`)
+        .map(([key, value]) => {
+          // Handle nested objects/arrays by stringifying them
+          const stringValue = typeof value === 'object' 
+            ? JSON.stringify(value) 
+            : `"${value}"`;
+          return `"${key}": ${stringValue}`;
+        })
         .join(", ");
       setSpecsInput(formatted);
     } else {
@@ -191,7 +197,7 @@ const UpdateProductForm = ({
           )}
         </label>
         <small className="text-muted d-block mb-1">
-          Enter as: "key": "value", "key2": "value2"
+          Enter as: "key": "value", "key2": "value2" (supports nested objects)
         </small>
         <textarea
           className={`form-control ${specsInput && !isValidJson ? 'border-danger' : ''}`}

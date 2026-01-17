@@ -175,7 +175,7 @@ const CreateProductForm = ({
           )}
         </label>
         <small className="text-muted d-block mb-1">
-          Enter as: "key": "value", "key2": "value2"
+          Enter as: "key": "value", "key2": "value2" (supports nested objects)
         </small>
         <textarea
           className={`form-control ${specsInput && !isValidJson ? 'border-danger' : ''}`}
