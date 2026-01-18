@@ -7,6 +7,7 @@ import ProductCard from '../components/cards/ProductCard'
 import {Menu, Slider, Checkbox, Radio, Button} from 'antd'
 import {DollarOutlined, DownSquareOutlined, StarOutlined, CheckCircleOutlined, BorderOuterOutlined, BorderInnerOutlined} from '@ant-design/icons'
 import Star from '../components/forms/Star'
+import ChatAssistant from '../components/chat/ChatAssistant'
 
 
 const Shop = () => {
@@ -449,6 +450,9 @@ const Shop = () => {
                     </div>
                 </div>
             </div>
+            
+            {/* AI Shopping Assistant */}
+            <ChatAssistant />
         </div>
     )
 }

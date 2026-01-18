@@ -5,6 +5,7 @@ import BestSellers from "../components/home/BestSellers";
 import CategoryList from "../components/category/CategoryList";
 import SubCategoryList from "../components/subCategory/subCategoryList";
 import Search from "../components/forms/Search";
+import ChatAssistant from "../components/chat/ChatAssistant";
 
 const Home = () => {
   return (
@@ -33,6 +34,9 @@ const Home = () => {
       </h4>
       <SubCategoryList/>
       <br/> <br/>
+      
+      {/* AI Shopping Assistant */}
+      <ChatAssistant />
     </>
   );
 };
