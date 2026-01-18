@@ -115,7 +115,7 @@ const ChatAssistant = () => {
                           )}
                           <div className="product-info">
                             <h5>{product.title}</h5>
-                            <p className="product-price">${product.price}</p>
+                            <p className="product-price">Rs. {product.price}</p>
                             <Link
                               to={`/product/${product.slug}`}
                               className="btn btn-sm btn-primary"
