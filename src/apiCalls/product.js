@@ -104,6 +104,13 @@ const getProductsByFilters = async(args) => {
   );
   return result
 }
+
+const getProductsBySemanticSearch = async(args) => {
+  const result = await axios.post(
+    `${import.meta.env.VITE_APP_API}/product/semantic-search`, args
+  )
+  return result
+}
 export {
   getProducts,
   getProduct,
@@ -116,5 +123,6 @@ export {
   getRelated,
   getRelatedByCategory,
   getRelatedBySubCategory,
-  getProductsByFilters
+  getProductsByFilters,
+  getProductsBySemanticSearch 
 };

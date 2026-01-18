@@ -1,5 +1,5 @@
 import React, {useState, useEffect, Children} from 'react'
-import {getProducts, getProductsByFilters} from '../apiCalls/product'
+import {getProducts, getProductsByFilters, getProductsBySemanticSearch} from '../apiCalls/product'
 import {getCategories} from '../apiCalls/category'
 import {getSubCategories} from '../apiCalls/subCategory'
 import {useSelector, useDispatch} from 'react-redux'
@@ -285,6 +285,17 @@ const Shop = () => {
         }
     }
 
+    const loadProductsBySemanticSearch = async (args)=> {
+        try{
+            const result = await getProductsBySemanticSearch(args)
+            if(result && result.data){
+                setProducts(result.data)
+            }
+        }catch(err){
+            console.log(err)
+        }
+    }
+
     // 1. Load default products
     useEffect(()=> {
         loadProducts()
@@ -300,7 +311,7 @@ const Shop = () => {
         setStars('')
         setShipping('')
         const delayedApiCall = setTimeout(()=> {
-            loadProductsByFilter({query : text})
+            loadProductsBySemanticSearch({query : text})
         }, 400)
         return ()=> clearTimeout(delayedApiCall)
     }, [text])
